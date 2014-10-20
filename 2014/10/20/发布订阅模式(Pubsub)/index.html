@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>发布订阅模式（Pub/Sub） | Dabbler</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="发布/订阅模式解释
+Publish/Subscribe模式使用了一个主题/事件通道。也称之为”自定义事件”。这个通道是介于激活该事件的对象（称之为发布者）与希望接收通知的对象（subscribe）之间。并不是一个对象调用另一个对象的方法。
+发布/订阅模式与observer模式的区别
+通常人们会把observer模式认为是Publish/subscribe模式。其实还是有一定的区别。只是Publis">
+<meta property="og:type" content="article">
+<meta property="og:title" content="发布订阅模式（Pub/Sub）">
+<meta property="og:url" content="http://yoursite.com/2014/10/20/发布订阅模式(Pubsub)/">
+<meta property="og:site_name" content="Dabbler">
+<meta property="og:description" content="发布/订阅模式解释
+Publish/Subscribe模式使用了一个主题/事件通道。也称之为”自定义事件”。这个通道是介于激活该事件的对象（称之为发布者）与希望接收通知的对象（subscribe）之间。并不是一个对象调用另一个对象的方法。
+发布/订阅模式与observer模式的区别
+通常人们会把observer模式认为是Publish/subscribe模式。其实还是有一定的区别。只是Publis">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="发布订阅模式（Pub/Sub）">
+<meta name="twitter:description" content="发布/订阅模式解释
+Publish/Subscribe模式使用了一个主题/事件通道。也称之为”自定义事件”。这个通道是介于激活该事件的对象（称之为发布者）与希望接收通知的对象（subscribe）之间。并不是一个对象调用另一个对象的方法。
+发布/订阅模式与observer模式的区别
+通常人们会把observer模式认为是Publish/subscribe模式。其实还是有一定的区别。只是Publis">
+
+  
+    <link rel="alternative" href="/atom.xml" title="Dabbler" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+  
+
+</head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Dabbler</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">行走在js与as之间的半吊子</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><input type="submit" value="&#xF002;" class="search-form-submit"><input type="hidden" name="q" value="site:http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-发布订阅模式(Pubsub)" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2014/10/20/发布订阅模式(Pubsub)/" class="article-date">
+  <time datetime="2014-10-20T14:56:59.000Z" itemprop="datePublished">Oct 20 2014</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/设计模式/">设计模式</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      发布订阅模式（Pub/Sub）
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="发布/订阅模式解释">发布/订阅模式解释</h3>
+<p><code>Publish/Subscribe</code>模式使用了一个主题/事件通道。也称之为”自定义事件”。这个通道是介于<code>激活该事件</code>的对象（称之为发布者）与希望<code>接收通知</code>的对象（subscribe）之间。并不是一个对象调用另一个对象的方法。</p>
+<h3 id="发布/订阅模式与observer模式的区别">发布/订阅模式与observer模式的区别</h3>
+<p>通常人们会把<code>observer</code>模式认为是<code>Publish/subscribe</code>模式。其实还是有一定的区别。只是<code>Publish/subscribe</code>应用的比较广泛。那么他们的区别到底是什么？回顾observer模式。该模式希望观察者必须订阅内容改变事件。也就是说必须调用观察者的某个change事件。而发布订阅模式是通过一个事件。通俗的讲也就是通过一个通知告诉订阅者。而订阅者做其他的操作。</p>
+<h3 id="举例说明">举例说明</h3>
+<p><strong>例子1</strong></p>
+<p>课铃为2声、放学铃为5声。当学生听到5声时就知道是放学了。铃声就是通知。这个时候有人回家了，有人把妹了。跟发布者有半毛钱关系吗？</p>
+<p>上述例子中，时间控制系统可以理解为发布者，学生and工作人员可以理解为订阅者。不同的铃声就是不同的事件。</p>
+<p><strong>例子2</strong></p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//简单的mail处理程序</span></div><div class="line"></div><div class="line"><span class="comment">//接收到的消息数量</span></div><div class="line"><span class="keyword">var</span> nMailCount = <span class="number">0</span>;</div><div class="line"></div><div class="line"><span class="comment">//订阅1, 事件为 newMessage</span></div><div class="line"><span class="keyword">var</span> subscribe1 = subscribe(<span class="string">"newMessage"</span>, <span class="function"><span class="keyword">function</span> <span class="params">(topic, data)</span></span>{</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">"收到新消息："</span>+ topic);</div><div class="line">    <span class="comment">//呈现消息预览</span></div><div class="line">    $(<span class="string">"#title"</span>).html(data.title);</div><div class="line">    $(<span class="string">"#body"</span>).html(data.body);</div><div class="line">})</div><div class="line"></div><div class="line"><span class="comment">//订阅2。使用同样的data数据，处理不同的业务逻辑</span></div><div class="line"><span class="keyword">var</span> subscribe2 = subscribe(<span class="string">"newMessage"</span>, <span class="function"><span class="keyword">function</span> <span class="params">(topic, data)</span></span>{</div><div class="line">    $(<span class="string">"#count"</span>).html(nMailCount++); </div><div class="line">})</div><div class="line"></div><div class="line"><span class="comment">//发布者</span></div><div class="line">publish(<span class="string">"newMessage"</span>, [{</div><div class="line">    title: <span class="string">"我是标题"</span>,</div><div class="line">    body:<span class="string">"我爱前端"</span></div><div class="line">}]);</div></pre></td></tr></table></figure>
+
+<h3 id="具体的实现">具体的实现</h3>
+<p><strong>分析</strong></p>
+<ul>
+<li><p>发布者 (publish) 一个</p>
+</li>
+<li><p>订阅者(subscribe) 可能有多个</p>
+</li>
+</ul>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> pubSub = {};</div><div class="line">(<span class="function"><span class="keyword">function</span><span class="params">(myObject)</span></span>{</div><div class="line">    <span class="keyword">var</span> topics = {}, <span class="comment">//保存topic集合</span></div><div class="line">    subUid=  -<span class="number">1</span>;</div><div class="line">    <span class="comment">//发布通知，包含特定的topic名称，以及参数</span></div><div class="line">    myObject.publish = functiion(topic, args){</div><div class="line">        <span class="keyword">if</span>(!topics[topic]){</div><div class="line">                <span class="keyword">return</span> <span class="literal">false</span>;</div><div class="line">        }</div><div class="line">        <span class="keyword">var</span> subscribers = topics[topic],</div><div class="line">        len = subscribers ? subscribers.length : <span class="number">0</span>;</div><div class="line"></div><div class="line">        <span class="keyword">while</span>(len--){</div><div class="line">               subscribers[len].func(topic, args);</div><div class="line">        }</div><div class="line">        <span class="keyword">return</span> <span class="keyword">this</span>;</div><div class="line">    }</div><div class="line"></div><div class="line">    <span class="comment">//通过特定的名称和回调函数订阅事件。topic触发时执行</span></div><div class="line">    myObject.subscribe = funciton (topic, func){</div><div class="line">        <span class="keyword">if</span>(!topics[topic]){</div><div class="line">            topics[topic] = [];</div><div class="line">        }</div><div class="line">        <span class="keyword">var</span> token = (++subUid).toString();</div><div class="line">        topics[topic].push({</div><div class="line">            token: token,</div><div class="line">            func: func</div><div class="line">        });</div><div class="line">        <span class="keyword">return</span> token;</div><div class="line">    }</div><div class="line"></div><div class="line">    <span class="comment">//取消订阅</span></div><div class="line">    myObject.unSubscribe = <span class="function"><span class="keyword">function</span><span class="params">()</span></span>{</div><div class="line">        <span class="keyword">for</span>(<span class="keyword">var</span> m <span class="keyword">in</span> topics){</div><div class="line">            <span class="keyword">if</span>(topics[m]){</div><div class="line">                <span class="keyword">for</span>(<span class="keyword">var</span> i =<span class="number">0</span>, j = topics[m].length;i&lt;j; i++){</div><div class="line">                    <span class="keyword">if</span>(topics[m][i].token === token){</div><div class="line">                        topics[m].splice(i, <span class="number">1</span>);</div><div class="line">                        <span class="keyword">return</span> token;</div><div class="line">                    }</div><div class="line">                }</div><div class="line">            }</div><div class="line">        }</div><div class="line">        <span class="keyword">return</span> <span class="keyword">this</span>;</div><div class="line">    }</div><div class="line">})(pubSub);</div></pre></td></tr></table></figure>
+
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2014/10/20/发布订阅模式(Pubsub)/" data-id="phfqw5zupm3ld1sm" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/设计模式/">设计模式</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2014/10/20/发布订阅模式(Pubsub)/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          发布订阅模式（Pub/Sub）
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2014/10/20/svn-cleanup-field 错误解决办法/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">flex中  svn 执行 cleanup 出现cleanup field 错误 解决办法</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/flex/">flex</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/设计模式/">设计模式</a><span class="category-list-count">12</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/flex/">flex</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/svn/">svn</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/设计模式/">设计模式</a><span class="tag-list-count">12</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/flex/" style="font-size: 10.00px;">flex</a><a href="/tags/svn/" style="font-size: 10.00px;">svn</a><a href="/tags/设计模式/" style="font-size: 20.00px;">设计模式</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">October 2014</a><span class="archive-list-count">13</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recents</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2014/10/20/发布订阅模式(Pubsub)/">发布订阅模式（Pub/Sub）</a>
+          </li>
+        
+          <li>
+            <a href="/2014/10/20/发布订阅模式(Pubsub)/">发布订阅模式（Pub/Sub）</a>
+          </li>
+        
+          <li>
+            <a href="/2014/10/20/发布订阅模式(Pubsub)/">发布订阅模式（Pub/Sub）</a>
+          </li>
+        
+          <li>
+            <a href="/2014/10/20/发布订阅模式(Pubsub)/">发布订阅模式（Pub/Sub）</a>
+          </li>
+        
+          <li>
+            <a href="/2014/10/20/发布订阅模式(Pubsub)/">发布订阅模式（Pub/Sub）</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2014 misar<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+
+  <script src="/fancybox/jquery.fancybox.pack.js" type="text/javascript"></script>
+
+
+
+<script src="/js/script.js" type="text/javascript"></script>
+
+
+  </div>
+</body>
+</html>
