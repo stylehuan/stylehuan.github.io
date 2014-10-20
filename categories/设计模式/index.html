@@ -67,321 +67,6 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-发布订阅模式(Pubsub)" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2014/10/20/发布订阅模式(Pubsub)/" class="article-date">
-  <time datetime="2014-10-20T14:56:59.000Z" itemprop="datePublished">Oct 20 2014</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/设计模式/">设计模式</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2014/10/20/发布订阅模式(Pubsub)/">发布订阅模式（Pub/Sub）</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="发布/订阅模式解释">发布/订阅模式解释</h3>
-<p><code>Publish/Subscribe</code>模式使用了一个主题/事件通道。也称之为”自定义事件”。这个通道是介于<code>激活该事件</code>的对象（称之为发布者）与希望<code>接收通知</code>的对象（subscribe）之间。并不是一个对象调用另一个对象的方法。</p>
-<h3 id="发布/订阅模式与observer模式的区别">发布/订阅模式与observer模式的区别</h3>
-<p>通常人们会把<code>observer</code>模式认为是<code>Publish/subscribe</code>模式。其实还是有一定的区别。只是<code>Publish/subscribe</code>应用的比较广泛。那么他们的区别到底是什么？回顾observer模式。该模式希望观察者必须订阅内容改变事件。也就是说必须调用观察者的某个change事件。而发布订阅模式是通过一个事件。通俗的讲也就是通过一个通知告诉订阅者。而订阅者做其他的操作。</p>
-<h3 id="举例说明">举例说明</h3>
-<p><strong>例子1</strong></p>
-<p>课铃为2声、放学铃为5声。当学生听到5声时就知道是放学了。铃声就是通知。这个时候有人回家了，有人把妹了。跟发布者有半毛钱关系吗？</p>
-<p>上述例子中，时间控制系统可以理解为发布者，学生and工作人员可以理解为订阅者。不同的铃声就是不同的事件。</p>
-<p><strong>例子2</strong></p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//简单的mail处理程序</span></div><div class="line"></div><div class="line"><span class="comment">//接收到的消息数量</span></div><div class="line"><span class="keyword">var</span> nMailCount = <span class="number">0</span>;</div><div class="line"></div><div class="line"><span class="comment">//订阅1, 事件为 newMessage</span></div><div class="line"><span class="keyword">var</span> subscribe1 = subscribe(<span class="string">"newMessage"</span>, <span class="function"><span class="keyword">function</span> <span class="params">(topic, data)</span></span>{</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">"收到新消息："</span>+ topic);</div><div class="line">    <span class="comment">//呈现消息预览</span></div><div class="line">    $(<span class="string">"#title"</span>).html(data.title);</div><div class="line">    $(<span class="string">"#body"</span>).html(data.body);</div><div class="line">})</div><div class="line"></div><div class="line"><span class="comment">//订阅2。使用同样的data数据，处理不同的业务逻辑</span></div><div class="line"><span class="keyword">var</span> subscribe2 = subscribe(<span class="string">"newMessage"</span>, <span class="function"><span class="keyword">function</span> <span class="params">(topic, data)</span></span>{</div><div class="line">    $(<span class="string">"#count"</span>).html(nMailCount++); </div><div class="line">})</div><div class="line"></div><div class="line"><span class="comment">//发布者</span></div><div class="line">publish(<span class="string">"newMessage"</span>, [{</div><div class="line">    title: <span class="string">"我是标题"</span>,</div><div class="line">    body:<span class="string">"我爱前端"</span></div><div class="line">}]);</div></pre></td></tr></table></figure>
-
-<h3 id="具体的实现">具体的实现</h3>
-<p><strong>分析</strong></p>
-<ul>
-<li><p>发布者 (publish) 一个</p>
-</li>
-<li><p>订阅者(subscribe) 可能有多个</p>
-</li>
-</ul>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> pubSub = {};</div><div class="line">(<span class="function"><span class="keyword">function</span><span class="params">(myObject)</span></span>{</div><div class="line">    <span class="keyword">var</span> topics = {}, <span class="comment">//保存topic集合</span></div><div class="line">    subUid=  -<span class="number">1</span>;</div><div class="line">    <span class="comment">//发布通知，包含特定的topic名称，以及参数</span></div><div class="line">    myObject.publish = functiion(topic, args){</div><div class="line">        <span class="keyword">if</span>(!topics[topic]){</div><div class="line">                <span class="keyword">return</span> <span class="literal">false</span>;</div><div class="line">        }</div><div class="line">        <span class="keyword">var</span> subscribers = topics[topic],</div><div class="line">        len = subscribers ? subscribers.length : <span class="number">0</span>;</div><div class="line"></div><div class="line">        <span class="keyword">while</span>(len--){</div><div class="line">               subscribers[len].func(topic, args);</div><div class="line">        }</div><div class="line">        <span class="keyword">return</span> <span class="keyword">this</span>;</div><div class="line">    }</div><div class="line"></div><div class="line">    <span class="comment">//通过特定的名称和回调函数订阅事件。topic触发时执行</span></div><div class="line">    myObject.subscribe = funciton (topic, func){</div><div class="line">        <span class="keyword">if</span>(!topics[topic]){</div><div class="line">            topics[topic] = [];</div><div class="line">        }</div><div class="line">        <span class="keyword">var</span> token = (++subUid).toString();</div><div class="line">        topics[topic].push({</div><div class="line">            token: token,</div><div class="line">            func: func</div><div class="line">        });</div><div class="line">        <span class="keyword">return</span> token;</div><div class="line">    }</div><div class="line"></div><div class="line">    <span class="comment">//取消订阅</span></div><div class="line">    myObject.unSubscribe = <span class="function"><span class="keyword">function</span><span class="params">()</span></span>{</div><div class="line">        <span class="keyword">for</span>(<span class="keyword">var</span> m <span class="keyword">in</span> topics){</div><div class="line">            <span class="keyword">if</span>(topics[m]){</div><div class="line">                <span class="keyword">for</span>(<span class="keyword">var</span> i =<span class="number">0</span>, j = topics[m].length;i&lt;j; i++){</div><div class="line">                    <span class="keyword">if</span>(topics[m][i].token === token){</div><div class="line">                        topics[m].splice(i, <span class="number">1</span>);</div><div class="line">                        <span class="keyword">return</span> token;</div><div class="line">                    }</div><div class="line">                }</div><div class="line">            }</div><div class="line">        }</div><div class="line">        <span class="keyword">return</span> <span class="keyword">this</span>;</div><div class="line">    }</div><div class="line">})(pubSub);</div></pre></td></tr></table></figure>
-
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2014/10/20/发布订阅模式(Pubsub)/" data-id="wtmdwcmci3yrc3mo" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/设计模式/">设计模式</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-发布订阅模式(Pubsub)" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2014/10/20/发布订阅模式(Pubsub)/" class="article-date">
-  <time datetime="2014-10-20T14:56:59.000Z" itemprop="datePublished">Oct 20 2014</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/设计模式/">设计模式</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2014/10/20/发布订阅模式(Pubsub)/">发布订阅模式（Pub/Sub）</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="发布/订阅模式解释">发布/订阅模式解释</h3>
-<p><code>Publish/Subscribe</code>模式使用了一个主题/事件通道。也称之为”自定义事件”。这个通道是介于<code>激活该事件</code>的对象（称之为发布者）与希望<code>接收通知</code>的对象（subscribe）之间。并不是一个对象调用另一个对象的方法。</p>
-<h3 id="发布/订阅模式与observer模式的区别">发布/订阅模式与observer模式的区别</h3>
-<p>通常人们会把<code>observer</code>模式认为是<code>Publish/subscribe</code>模式。其实还是有一定的区别。只是<code>Publish/subscribe</code>应用的比较广泛。那么他们的区别到底是什么？回顾observer模式。该模式希望观察者必须订阅内容改变事件。也就是说必须调用观察者的某个change事件。而发布订阅模式是通过一个事件。通俗的讲也就是通过一个通知告诉订阅者。而订阅者做其他的操作。</p>
-<h3 id="举例说明">举例说明</h3>
-<p><strong>例子1</strong></p>
-<p>课铃为2声、放学铃为5声。当学生听到5声时就知道是放学了。铃声就是通知。这个时候有人回家了，有人把妹了。跟发布者有半毛钱关系吗？</p>
-<p>上述例子中，时间控制系统可以理解为发布者，学生and工作人员可以理解为订阅者。不同的铃声就是不同的事件。</p>
-<p><strong>例子2</strong></p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//简单的mail处理程序</span></div><div class="line"></div><div class="line"><span class="comment">//接收到的消息数量</span></div><div class="line"><span class="keyword">var</span> nMailCount = <span class="number">0</span>;</div><div class="line"></div><div class="line"><span class="comment">//订阅1, 事件为 newMessage</span></div><div class="line"><span class="keyword">var</span> subscribe1 = subscribe(<span class="string">"newMessage"</span>, <span class="function"><span class="keyword">function</span> <span class="params">(topic, data)</span></span>{</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">"收到新消息："</span>+ topic);</div><div class="line">    <span class="comment">//呈现消息预览</span></div><div class="line">    $(<span class="string">"#title"</span>).html(data.title);</div><div class="line">    $(<span class="string">"#body"</span>).html(data.body);</div><div class="line">})</div><div class="line"></div><div class="line"><span class="comment">//订阅2。使用同样的data数据，处理不同的业务逻辑</span></div><div class="line"><span class="keyword">var</span> subscribe2 = subscribe(<span class="string">"newMessage"</span>, <span class="function"><span class="keyword">function</span> <span class="params">(topic, data)</span></span>{</div><div class="line">    $(<span class="string">"#count"</span>).html(nMailCount++); </div><div class="line">})</div><div class="line"></div><div class="line"><span class="comment">//发布者</span></div><div class="line">publish(<span class="string">"newMessage"</span>, [{</div><div class="line">    title: <span class="string">"我是标题"</span>,</div><div class="line">    body:<span class="string">"我爱前端"</span></div><div class="line">}]);</div></pre></td></tr></table></figure>
-
-<h3 id="具体的实现">具体的实现</h3>
-<p><strong>分析</strong></p>
-<ul>
-<li><p>发布者 (publish) 一个</p>
-</li>
-<li><p>订阅者(subscribe) 可能有多个</p>
-</li>
-</ul>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> pubSub = {};</div><div class="line">(<span class="function"><span class="keyword">function</span><span class="params">(myObject)</span></span>{</div><div class="line">    <span class="keyword">var</span> topics = {}, <span class="comment">//保存topic集合</span></div><div class="line">    subUid=  -<span class="number">1</span>;</div><div class="line">    <span class="comment">//发布通知，包含特定的topic名称，以及参数</span></div><div class="line">    myObject.publish = functiion(topic, args){</div><div class="line">        <span class="keyword">if</span>(!topics[topic]){</div><div class="line">                <span class="keyword">return</span> <span class="literal">false</span>;</div><div class="line">        }</div><div class="line">        <span class="keyword">var</span> subscribers = topics[topic],</div><div class="line">        len = subscribers ? subscribers.length : <span class="number">0</span>;</div><div class="line"></div><div class="line">        <span class="keyword">while</span>(len--){</div><div class="line">               subscribers[len].func(topic, args);</div><div class="line">        }</div><div class="line">        <span class="keyword">return</span> <span class="keyword">this</span>;</div><div class="line">    }</div><div class="line"></div><div class="line">    <span class="comment">//通过特定的名称和回调函数订阅事件。topic触发时执行</span></div><div class="line">    myObject.subscribe = funciton (topic, func){</div><div class="line">        <span class="keyword">if</span>(!topics[topic]){</div><div class="line">            topics[topic] = [];</div><div class="line">        }</div><div class="line">        <span class="keyword">var</span> token = (++subUid).toString();</div><div class="line">        topics[topic].push({</div><div class="line">            token: token,</div><div class="line">            func: func</div><div class="line">        });</div><div class="line">        <span class="keyword">return</span> token;</div><div class="line">    }</div><div class="line"></div><div class="line">    <span class="comment">//取消订阅</span></div><div class="line">    myObject.unSubscribe = <span class="function"><span class="keyword">function</span><span class="params">()</span></span>{</div><div class="line">        <span class="keyword">for</span>(<span class="keyword">var</span> m <span class="keyword">in</span> topics){</div><div class="line">            <span class="keyword">if</span>(topics[m]){</div><div class="line">                <span class="keyword">for</span>(<span class="keyword">var</span> i =<span class="number">0</span>, j = topics[m].length;i&lt;j; i++){</div><div class="line">                    <span class="keyword">if</span>(topics[m][i].token === token){</div><div class="line">                        topics[m].splice(i, <span class="number">1</span>);</div><div class="line">                        <span class="keyword">return</span> token;</div><div class="line">                    }</div><div class="line">                }</div><div class="line">            }</div><div class="line">        }</div><div class="line">        <span class="keyword">return</span> <span class="keyword">this</span>;</div><div class="line">    }</div><div class="line">})(pubSub);</div></pre></td></tr></table></figure>
-
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2014/10/20/发布订阅模式(Pubsub)/" data-id="w5bgs4t9dzfa5ch9" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/设计模式/">设计模式</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-发布订阅模式(Pubsub)" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2014/10/20/发布订阅模式(Pubsub)/" class="article-date">
-  <time datetime="2014-10-20T14:56:59.000Z" itemprop="datePublished">Oct 20 2014</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/设计模式/">设计模式</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2014/10/20/发布订阅模式(Pubsub)/">发布订阅模式（Pub/Sub）</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="发布/订阅模式解释">发布/订阅模式解释</h3>
-<p><code>Publish/Subscribe</code>模式使用了一个主题/事件通道。也称之为”自定义事件”。这个通道是介于<code>激活该事件</code>的对象（称之为发布者）与希望<code>接收通知</code>的对象（subscribe）之间。并不是一个对象调用另一个对象的方法。</p>
-<h3 id="发布/订阅模式与observer模式的区别">发布/订阅模式与observer模式的区别</h3>
-<p>通常人们会把<code>observer</code>模式认为是<code>Publish/subscribe</code>模式。其实还是有一定的区别。只是<code>Publish/subscribe</code>应用的比较广泛。那么他们的区别到底是什么？回顾observer模式。该模式希望观察者必须订阅内容改变事件。也就是说必须调用观察者的某个change事件。而发布订阅模式是通过一个事件。通俗的讲也就是通过一个通知告诉订阅者。而订阅者做其他的操作。</p>
-<h3 id="举例说明">举例说明</h3>
-<p><strong>例子1</strong></p>
-<p>课铃为2声、放学铃为5声。当学生听到5声时就知道是放学了。铃声就是通知。这个时候有人回家了，有人把妹了。跟发布者有半毛钱关系吗？</p>
-<p>上述例子中，时间控制系统可以理解为发布者，学生and工作人员可以理解为订阅者。不同的铃声就是不同的事件。</p>
-<p><strong>例子2</strong></p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//简单的mail处理程序</span></div><div class="line"></div><div class="line"><span class="comment">//接收到的消息数量</span></div><div class="line"><span class="keyword">var</span> nMailCount = <span class="number">0</span>;</div><div class="line"></div><div class="line"><span class="comment">//订阅1, 事件为 newMessage</span></div><div class="line"><span class="keyword">var</span> subscribe1 = subscribe(<span class="string">"newMessage"</span>, <span class="function"><span class="keyword">function</span> <span class="params">(topic, data)</span></span>{</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">"收到新消息："</span>+ topic);</div><div class="line">    <span class="comment">//呈现消息预览</span></div><div class="line">    $(<span class="string">"#title"</span>).html(data.title);</div><div class="line">    $(<span class="string">"#body"</span>).html(data.body);</div><div class="line">})</div><div class="line"></div><div class="line"><span class="comment">//订阅2。使用同样的data数据，处理不同的业务逻辑</span></div><div class="line"><span class="keyword">var</span> subscribe2 = subscribe(<span class="string">"newMessage"</span>, <span class="function"><span class="keyword">function</span> <span class="params">(topic, data)</span></span>{</div><div class="line">    $(<span class="string">"#count"</span>).html(nMailCount++); </div><div class="line">})</div><div class="line"></div><div class="line"><span class="comment">//发布者</span></div><div class="line">publish(<span class="string">"newMessage"</span>, [{</div><div class="line">    title: <span class="string">"我是标题"</span>,</div><div class="line">    body:<span class="string">"我爱前端"</span></div><div class="line">}]);</div></pre></td></tr></table></figure>
-
-<h3 id="具体的实现">具体的实现</h3>
-<p><strong>分析</strong></p>
-<ul>
-<li><p>发布者 (publish) 一个</p>
-</li>
-<li><p>订阅者(subscribe) 可能有多个</p>
-</li>
-</ul>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> pubSub = {};</div><div class="line">(<span class="function"><span class="keyword">function</span><span class="params">(myObject)</span></span>{</div><div class="line">    <span class="keyword">var</span> topics = {}, <span class="comment">//保存topic集合</span></div><div class="line">    subUid=  -<span class="number">1</span>;</div><div class="line">    <span class="comment">//发布通知，包含特定的topic名称，以及参数</span></div><div class="line">    myObject.publish = functiion(topic, args){</div><div class="line">        <span class="keyword">if</span>(!topics[topic]){</div><div class="line">                <span class="keyword">return</span> <span class="literal">false</span>;</div><div class="line">        }</div><div class="line">        <span class="keyword">var</span> subscribers = topics[topic],</div><div class="line">        len = subscribers ? subscribers.length : <span class="number">0</span>;</div><div class="line"></div><div class="line">        <span class="keyword">while</span>(len--){</div><div class="line">               subscribers[len].func(topic, args);</div><div class="line">        }</div><div class="line">        <span class="keyword">return</span> <span class="keyword">this</span>;</div><div class="line">    }</div><div class="line"></div><div class="line">    <span class="comment">//通过特定的名称和回调函数订阅事件。topic触发时执行</span></div><div class="line">    myObject.subscribe = funciton (topic, func){</div><div class="line">        <span class="keyword">if</span>(!topics[topic]){</div><div class="line">            topics[topic] = [];</div><div class="line">        }</div><div class="line">        <span class="keyword">var</span> token = (++subUid).toString();</div><div class="line">        topics[topic].push({</div><div class="line">            token: token,</div><div class="line">            func: func</div><div class="line">        });</div><div class="line">        <span class="keyword">return</span> token;</div><div class="line">    }</div><div class="line"></div><div class="line">    <span class="comment">//取消订阅</span></div><div class="line">    myObject.unSubscribe = <span class="function"><span class="keyword">function</span><span class="params">()</span></span>{</div><div class="line">        <span class="keyword">for</span>(<span class="keyword">var</span> m <span class="keyword">in</span> topics){</div><div class="line">            <span class="keyword">if</span>(topics[m]){</div><div class="line">                <span class="keyword">for</span>(<span class="keyword">var</span> i =<span class="number">0</span>, j = topics[m].length;i&lt;j; i++){</div><div class="line">                    <span class="keyword">if</span>(topics[m][i].token === token){</div><div class="line">                        topics[m].splice(i, <span class="number">1</span>);</div><div class="line">                        <span class="keyword">return</span> token;</div><div class="line">                    }</div><div class="line">                }</div><div class="line">            }</div><div class="line">        }</div><div class="line">        <span class="keyword">return</span> <span class="keyword">this</span>;</div><div class="line">    }</div><div class="line">})(pubSub);</div></pre></td></tr></table></figure>
-
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2014/10/20/发布订阅模式(Pubsub)/" data-id="hbqhmym8obcrhhs3" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/设计模式/">设计模式</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-发布订阅模式(Pubsub)" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2014/10/20/发布订阅模式(Pubsub)/" class="article-date">
-  <time datetime="2014-10-20T14:56:59.000Z" itemprop="datePublished">Oct 20 2014</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/设计模式/">设计模式</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2014/10/20/发布订阅模式(Pubsub)/">发布订阅模式（Pub/Sub）</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="发布/订阅模式解释">发布/订阅模式解释</h3>
-<p><code>Publish/Subscribe</code>模式使用了一个主题/事件通道。也称之为”自定义事件”。这个通道是介于<code>激活该事件</code>的对象（称之为发布者）与希望<code>接收通知</code>的对象（subscribe）之间。并不是一个对象调用另一个对象的方法。</p>
-<h3 id="发布/订阅模式与observer模式的区别">发布/订阅模式与observer模式的区别</h3>
-<p>通常人们会把<code>observer</code>模式认为是<code>Publish/subscribe</code>模式。其实还是有一定的区别。只是<code>Publish/subscribe</code>应用的比较广泛。那么他们的区别到底是什么？回顾observer模式。该模式希望观察者必须订阅内容改变事件。也就是说必须调用观察者的某个change事件。而发布订阅模式是通过一个事件。通俗的讲也就是通过一个通知告诉订阅者。而订阅者做其他的操作。</p>
-<h3 id="举例说明">举例说明</h3>
-<p><strong>例子1</strong></p>
-<p>课铃为2声、放学铃为5声。当学生听到5声时就知道是放学了。铃声就是通知。这个时候有人回家了，有人把妹了。跟发布者有半毛钱关系吗？</p>
-<p>上述例子中，时间控制系统可以理解为发布者，学生and工作人员可以理解为订阅者。不同的铃声就是不同的事件。</p>
-<p><strong>例子2</strong></p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//简单的mail处理程序</span></div><div class="line"></div><div class="line"><span class="comment">//接收到的消息数量</span></div><div class="line"><span class="keyword">var</span> nMailCount = <span class="number">0</span>;</div><div class="line"></div><div class="line"><span class="comment">//订阅1, 事件为 newMessage</span></div><div class="line"><span class="keyword">var</span> subscribe1 = subscribe(<span class="string">"newMessage"</span>, <span class="function"><span class="keyword">function</span> <span class="params">(topic, data)</span></span>{</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">"收到新消息："</span>+ topic);</div><div class="line">    <span class="comment">//呈现消息预览</span></div><div class="line">    $(<span class="string">"#title"</span>).html(data.title);</div><div class="line">    $(<span class="string">"#body"</span>).html(data.body);</div><div class="line">})</div><div class="line"></div><div class="line"><span class="comment">//订阅2。使用同样的data数据，处理不同的业务逻辑</span></div><div class="line"><span class="keyword">var</span> subscribe2 = subscribe(<span class="string">"newMessage"</span>, <span class="function"><span class="keyword">function</span> <span class="params">(topic, data)</span></span>{</div><div class="line">    $(<span class="string">"#count"</span>).html(nMailCount++); </div><div class="line">})</div><div class="line"></div><div class="line"><span class="comment">//发布者</span></div><div class="line">publish(<span class="string">"newMessage"</span>, [{</div><div class="line">    title: <span class="string">"我是标题"</span>,</div><div class="line">    body:<span class="string">"我爱前端"</span></div><div class="line">}]);</div></pre></td></tr></table></figure>
-
-<h3 id="具体的实现">具体的实现</h3>
-<p><strong>分析</strong></p>
-<ul>
-<li><p>发布者 (publish) 一个</p>
-</li>
-<li><p>订阅者(subscribe) 可能有多个</p>
-</li>
-</ul>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> pubSub = {};</div><div class="line">(<span class="function"><span class="keyword">function</span><span class="params">(myObject)</span></span>{</div><div class="line">    <span class="keyword">var</span> topics = {}, <span class="comment">//保存topic集合</span></div><div class="line">    subUid=  -<span class="number">1</span>;</div><div class="line">    <span class="comment">//发布通知，包含特定的topic名称，以及参数</span></div><div class="line">    myObject.publish = functiion(topic, args){</div><div class="line">        <span class="keyword">if</span>(!topics[topic]){</div><div class="line">                <span class="keyword">return</span> <span class="literal">false</span>;</div><div class="line">        }</div><div class="line">        <span class="keyword">var</span> subscribers = topics[topic],</div><div class="line">        len = subscribers ? subscribers.length : <span class="number">0</span>;</div><div class="line"></div><div class="line">        <span class="keyword">while</span>(len--){</div><div class="line">               subscribers[len].func(topic, args);</div><div class="line">        }</div><div class="line">        <span class="keyword">return</span> <span class="keyword">this</span>;</div><div class="line">    }</div><div class="line"></div><div class="line">    <span class="comment">//通过特定的名称和回调函数订阅事件。topic触发时执行</span></div><div class="line">    myObject.subscribe = funciton (topic, func){</div><div class="line">        <span class="keyword">if</span>(!topics[topic]){</div><div class="line">            topics[topic] = [];</div><div class="line">        }</div><div class="line">        <span class="keyword">var</span> token = (++subUid).toString();</div><div class="line">        topics[topic].push({</div><div class="line">            token: token,</div><div class="line">            func: func</div><div class="line">        });</div><div class="line">        <span class="keyword">return</span> token;</div><div class="line">    }</div><div class="line"></div><div class="line">    <span class="comment">//取消订阅</span></div><div class="line">    myObject.unSubscribe = <span class="function"><span class="keyword">function</span><span class="params">()</span></span>{</div><div class="line">        <span class="keyword">for</span>(<span class="keyword">var</span> m <span class="keyword">in</span> topics){</div><div class="line">            <span class="keyword">if</span>(topics[m]){</div><div class="line">                <span class="keyword">for</span>(<span class="keyword">var</span> i =<span class="number">0</span>, j = topics[m].length;i&lt;j; i++){</div><div class="line">                    <span class="keyword">if</span>(topics[m][i].token === token){</div><div class="line">                        topics[m].splice(i, <span class="number">1</span>);</div><div class="line">                        <span class="keyword">return</span> token;</div><div class="line">                    }</div><div class="line">                }</div><div class="line">            }</div><div class="line">        }</div><div class="line">        <span class="keyword">return</span> <span class="keyword">this</span>;</div><div class="line">    }</div><div class="line">})(pubSub);</div></pre></td></tr></table></figure>
-
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2014/10/20/发布订阅模式(Pubsub)/" data-id="z6xuiux0omz9tdyy" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/设计模式/">设计模式</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-发布订阅模式(Pubsub)" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2014/10/20/发布订阅模式(Pubsub)/" class="article-date">
-  <time datetime="2014-10-20T14:56:59.000Z" itemprop="datePublished">Oct 20 2014</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/设计模式/">设计模式</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2014/10/20/发布订阅模式(Pubsub)/">发布订阅模式（Pub/Sub）</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="发布/订阅模式解释">发布/订阅模式解释</h3>
-<p><code>Publish/Subscribe</code>模式使用了一个主题/事件通道。也称之为”自定义事件”。这个通道是介于<code>激活该事件</code>的对象（称之为发布者）与希望<code>接收通知</code>的对象（subscribe）之间。并不是一个对象调用另一个对象的方法。</p>
-<h3 id="发布/订阅模式与observer模式的区别">发布/订阅模式与observer模式的区别</h3>
-<p>通常人们会把<code>observer</code>模式认为是<code>Publish/subscribe</code>模式。其实还是有一定的区别。只是<code>Publish/subscribe</code>应用的比较广泛。那么他们的区别到底是什么？回顾observer模式。该模式希望观察者必须订阅内容改变事件。也就是说必须调用观察者的某个change事件。而发布订阅模式是通过一个事件。通俗的讲也就是通过一个通知告诉订阅者。而订阅者做其他的操作。</p>
-<h3 id="举例说明">举例说明</h3>
-<p><strong>例子1</strong></p>
-<p>课铃为2声、放学铃为5声。当学生听到5声时就知道是放学了。铃声就是通知。这个时候有人回家了，有人把妹了。跟发布者有半毛钱关系吗？</p>
-<p>上述例子中，时间控制系统可以理解为发布者，学生and工作人员可以理解为订阅者。不同的铃声就是不同的事件。</p>
-<p><strong>例子2</strong></p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//简单的mail处理程序</span></div><div class="line"></div><div class="line"><span class="comment">//接收到的消息数量</span></div><div class="line"><span class="keyword">var</span> nMailCount = <span class="number">0</span>;</div><div class="line"></div><div class="line"><span class="comment">//订阅1, 事件为 newMessage</span></div><div class="line"><span class="keyword">var</span> subscribe1 = subscribe(<span class="string">"newMessage"</span>, <span class="function"><span class="keyword">function</span> <span class="params">(topic, data)</span></span>{</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">"收到新消息："</span>+ topic);</div><div class="line">    <span class="comment">//呈现消息预览</span></div><div class="line">    $(<span class="string">"#title"</span>).html(data.title);</div><div class="line">    $(<span class="string">"#body"</span>).html(data.body);</div><div class="line">})</div><div class="line"></div><div class="line"><span class="comment">//订阅2。使用同样的data数据，处理不同的业务逻辑</span></div><div class="line"><span class="keyword">var</span> subscribe2 = subscribe(<span class="string">"newMessage"</span>, <span class="function"><span class="keyword">function</span> <span class="params">(topic, data)</span></span>{</div><div class="line">    $(<span class="string">"#count"</span>).html(nMailCount++); </div><div class="line">})</div><div class="line"></div><div class="line"><span class="comment">//发布者</span></div><div class="line">publish(<span class="string">"newMessage"</span>, [{</div><div class="line">    title: <span class="string">"我是标题"</span>,</div><div class="line">    body:<span class="string">"我爱前端"</span></div><div class="line">}]);</div></pre></td></tr></table></figure>
-
-<h3 id="具体的实现">具体的实现</h3>
-<p><strong>分析</strong></p>
-<ul>
-<li><p>发布者 (publish) 一个</p>
-</li>
-<li><p>订阅者(subscribe) 可能有多个</p>
-</li>
-</ul>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> pubSub = {};</div><div class="line">(<span class="function"><span class="keyword">function</span><span class="params">(myObject)</span></span>{</div><div class="line">    <span class="keyword">var</span> topics = {}, <span class="comment">//保存topic集合</span></div><div class="line">    subUid=  -<span class="number">1</span>;</div><div class="line">    <span class="comment">//发布通知，包含特定的topic名称，以及参数</span></div><div class="line">    myObject.publish = functiion(topic, args){</div><div class="line">        <span class="keyword">if</span>(!topics[topic]){</div><div class="line">                <span class="keyword">return</span> <span class="literal">false</span>;</div><div class="line">        }</div><div class="line">        <span class="keyword">var</span> subscribers = topics[topic],</div><div class="line">        len = subscribers ? subscribers.length : <span class="number">0</span>;</div><div class="line"></div><div class="line">        <span class="keyword">while</span>(len--){</div><div class="line">               subscribers[len].func(topic, args);</div><div class="line">        }</div><div class="line">        <span class="keyword">return</span> <span class="keyword">this</span>;</div><div class="line">    }</div><div class="line"></div><div class="line">    <span class="comment">//通过特定的名称和回调函数订阅事件。topic触发时执行</span></div><div class="line">    myObject.subscribe = funciton (topic, func){</div><div class="line">        <span class="keyword">if</span>(!topics[topic]){</div><div class="line">            topics[topic] = [];</div><div class="line">        }</div><div class="line">        <span class="keyword">var</span> token = (++subUid).toString();</div><div class="line">        topics[topic].push({</div><div class="line">            token: token,</div><div class="line">            func: func</div><div class="line">        });</div><div class="line">        <span class="keyword">return</span> token;</div><div class="line">    }</div><div class="line"></div><div class="line">    <span class="comment">//取消订阅</span></div><div class="line">    myObject.unSubscribe = <span class="function"><span class="keyword">function</span><span class="params">()</span></span>{</div><div class="line">        <span class="keyword">for</span>(<span class="keyword">var</span> m <span class="keyword">in</span> topics){</div><div class="line">            <span class="keyword">if</span>(topics[m]){</div><div class="line">                <span class="keyword">for</span>(<span class="keyword">var</span> i =<span class="number">0</span>, j = topics[m].length;i&lt;j; i++){</div><div class="line">                    <span class="keyword">if</span>(topics[m][i].token === token){</div><div class="line">                        topics[m].splice(i, <span class="number">1</span>);</div><div class="line">                        <span class="keyword">return</span> token;</div><div class="line">                    }</div><div class="line">                }</div><div class="line">            }</div><div class="line">        }</div><div class="line">        <span class="keyword">return</span> <span class="keyword">this</span>;</div><div class="line">    }</div><div class="line">})(pubSub);</div></pre></td></tr></table></figure>
-
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2014/10/20/发布订阅模式(Pubsub)/" data-id="rq03wmzb5aduhq83" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/设计模式/">设计模式</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
     <article id="post-观察者模式(Observer)" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2014/10/20/观察者模式(Observer)/" class="article-date">
@@ -459,7 +144,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2014/10/20/观察者模式(Observer)/" data-id="omwx9qspvamltaqq" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2014/10/20/观察者模式(Observer)/" data-id="kvg2pq8uz66gundu" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/设计模式/">设计模式</a></li></ul>
@@ -522,7 +207,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2014/10/20/发布订阅模式(Pubsub)/" data-id="phfqw5zupm3ld1sm" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2014/10/20/发布订阅模式(Pubsub)/" data-id="2k5y6m3yhd4bnedr" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/设计模式/">设计模式</a></li></ul>
@@ -534,10 +219,10 @@
 
 
   
-    <article id="post-发布订阅模式(Pubsub)" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-单例模式(singletion)" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2014/10/20/发布订阅模式(Pubsub)/" class="article-date">
-  <time datetime="2014-10-20T14:56:59.000Z" itemprop="datePublished">Oct 20 2014</time>
+    <a href="/2014/10/20/单例模式(singletion)/" class="article-date">
+  <time datetime="2014-10-20T08:50:59.000Z" itemprop="datePublished">Oct 20 2014</time>
 </a>
     
   <div class="article-category">
@@ -552,7 +237,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2014/10/20/发布订阅模式(Pubsub)/">发布订阅模式（Pub/Sub）</a>
+      <a class="article-title" href="/2014/10/20/单例模式(singletion)/">单例模式（Singleton）</a>
     </h1>
   
 
@@ -560,32 +245,47 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h3 id="发布/订阅模式解释">发布/订阅模式解释</h3>
-<p><code>Publish/Subscribe</code>模式使用了一个主题/事件通道。也称之为”自定义事件”。这个通道是介于<code>激活该事件</code>的对象（称之为发布者）与希望<code>接收通知</code>的对象（subscribe）之间。并不是一个对象调用另一个对象的方法。</p>
-<h3 id="发布/订阅模式与observer模式的区别">发布/订阅模式与observer模式的区别</h3>
-<p>通常人们会把<code>observer</code>模式认为是<code>Publish/subscribe</code>模式。其实还是有一定的区别。只是<code>Publish/subscribe</code>应用的比较广泛。那么他们的区别到底是什么？回顾observer模式。该模式希望观察者必须订阅内容改变事件。也就是说必须调用观察者的某个change事件。而发布订阅模式是通过一个事件。通俗的讲也就是通过一个通知告诉订阅者。而订阅者做其他的操作。</p>
-<h3 id="举例说明">举例说明</h3>
+        <p>1、单例就是一个类只生成一个实例，提供一个全局的访问点(只能通过这个访问点)。从全局命名空间中隔离出代码</p>
+<p>2、单例不是一个对象，n而是一种结构。是一种思想</p>
+<p>3、无new的操作，只能在类内部生成实例(js中不明显)</p>
+<p>书面解释： Singleton模式，在该实例不存在的情况下，通过一个方法创建一个类来实现创建类的新实例；如果实例存在，就会返回该实例的引用。</p>
 <p><strong>例子1</strong></p>
-<p>课铃为2声、放学铃为5声。当学生听到5声时就知道是放学了。铃声就是通知。这个时候有人回家了，有人把妹了。跟发布者有半毛钱关系吗？</p>
-<p>上述例子中，时间控制系统可以理解为发布者，学生and工作人员可以理解为订阅者。不同的铃声就是不同的事件。</p>
-<p><strong>例子2</strong></p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//简单的mail处理程序</span></div><div class="line"></div><div class="line"><span class="comment">//接收到的消息数量</span></div><div class="line"><span class="keyword">var</span> nMailCount = <span class="number">0</span>;</div><div class="line"></div><div class="line"><span class="comment">//订阅1, 事件为 newMessage</span></div><div class="line"><span class="keyword">var</span> subscribe1 = subscribe(<span class="string">"newMessage"</span>, <span class="function"><span class="keyword">function</span> <span class="params">(topic, data)</span></span>{</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">"收到新消息："</span>+ topic);</div><div class="line">    <span class="comment">//呈现消息预览</span></div><div class="line">    $(<span class="string">"#title"</span>).html(data.title);</div><div class="line">    $(<span class="string">"#body"</span>).html(data.body);</div><div class="line">})</div><div class="line"></div><div class="line"><span class="comment">//订阅2。使用同样的data数据，处理不同的业务逻辑</span></div><div class="line"><span class="keyword">var</span> subscribe2 = subscribe(<span class="string">"newMessage"</span>, <span class="function"><span class="keyword">function</span> <span class="params">(topic, data)</span></span>{</div><div class="line">    $(<span class="string">"#count"</span>).html(nMailCount++); </div><div class="line">})</div><div class="line"></div><div class="line"><span class="comment">//发布者</span></div><div class="line">publish(<span class="string">"newMessage"</span>, [{</div><div class="line">    title: <span class="string">"我是标题"</span>,</div><div class="line">    body:<span class="string">"我爱前端"</span></div><div class="line">}]);</div></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> mySingleton = (<span class="function"><span class="keyword">function</span><span class="params">()</span></span>{</div><div class="line">	<span class="keyword">var</span> instance,<span class="comment">//用于保存具体实例的引用</span></div><div class="line">        init = <span class="function"><span class="keyword">function</span><span class="params">()</span></span>{</div><div class="line">            <span class="keyword">var</span> privateRandomNumber = <span class="built_in">Math</span>.random();</div><div class="line">            <span class="keyword">return</span> {</div><div class="line">                    <span class="comment">//公有方法和变量</span></div><div class="line">                    publicMethod: <span class="function"><span class="keyword">function</span><span class="params">()</span></span>{</div><div class="line">                         <span class="built_in">console</span>.log(<span class="string">"我是公有方法"</span>)</div><div class="line">                    },</div><div class="line">                    getRandomNumber: <span class="function"><span class="keyword">function</span><span class="params">()</span></span>{</div><div class="line">                        <span class="keyword">return</span> privateRandomNumber;</div><div class="line">                    }</div><div class="line">            } </div><div class="line">        };</div><div class="line">        <span class="keyword">return</span> {</div><div class="line">                <span class="comment">//获取singleton的实例。如果存在就返回不存在就创建一个新实例</span></div><div class="line">                getInstance:<span class="function"><span class="keyword">function</span><span class="params">()</span></span>{</div><div class="line">                        <span class="keyword">if</span>(!instance){</div><div class="line">                            instance = init();</div><div class="line">                        }</div><div class="line">                        <span class="keyword">return</span> instance;</div><div class="line">                }</div><div class="line">        }</div><div class="line">    })();</div><div class="line"><span class="keyword">var</span> singleA = mySingleton.getInstance();</div><div class="line"><span class="keyword">var</span> singleB = mySingleton.getInstance();</div><div class="line"><span class="built_in">console</span>.log(singleA.getRandomNumber() == singleA.getRandomNumber()); <span class="comment">//????结果是什么</span></div></pre></td></tr></table></figure>
 
-<h3 id="具体的实现">具体的实现</h3>
-<p><strong>分析</strong></p>
-<ul>
-<li><p>发布者 (publish) 一个</p>
-</li>
-<li><p>订阅者(subscribe) 可能有多个</p>
-</li>
-</ul>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> pubSub = {};</div><div class="line">(<span class="function"><span class="keyword">function</span><span class="params">(myObject)</span></span>{</div><div class="line">    <span class="keyword">var</span> topics = {}, <span class="comment">//保存topic集合</span></div><div class="line">    subUid=  -<span class="number">1</span>;</div><div class="line">    <span class="comment">//发布通知，包含特定的topic名称，以及参数</span></div><div class="line">    myObject.publish = functiion(topic, args){</div><div class="line">        <span class="keyword">if</span>(!topics[topic]){</div><div class="line">                <span class="keyword">return</span> <span class="literal">false</span>;</div><div class="line">        }</div><div class="line">        <span class="keyword">var</span> subscribers = topics[topic],</div><div class="line">        len = subscribers ? subscribers.length : <span class="number">0</span>;</div><div class="line"></div><div class="line">        <span class="keyword">while</span>(len--){</div><div class="line">               subscribers[len].func(topic, args);</div><div class="line">        }</div><div class="line">        <span class="keyword">return</span> <span class="keyword">this</span>;</div><div class="line">    }</div><div class="line"></div><div class="line">    <span class="comment">//通过特定的名称和回调函数订阅事件。topic触发时执行</span></div><div class="line">    myObject.subscribe = funciton (topic, func){</div><div class="line">        <span class="keyword">if</span>(!topics[topic]){</div><div class="line">            topics[topic] = [];</div><div class="line">        }</div><div class="line">        <span class="keyword">var</span> token = (++subUid).toString();</div><div class="line">        topics[topic].push({</div><div class="line">            token: token,</div><div class="line">            func: func</div><div class="line">        });</div><div class="line">        <span class="keyword">return</span> token;</div><div class="line">    }</div><div class="line"></div><div class="line">    <span class="comment">//取消订阅</span></div><div class="line">    myObject.unSubscribe = <span class="function"><span class="keyword">function</span><span class="params">()</span></span>{</div><div class="line">        <span class="keyword">for</span>(<span class="keyword">var</span> m <span class="keyword">in</span> topics){</div><div class="line">            <span class="keyword">if</span>(topics[m]){</div><div class="line">                <span class="keyword">for</span>(<span class="keyword">var</span> i =<span class="number">0</span>, j = topics[m].length;i&lt;j; i++){</div><div class="line">                    <span class="keyword">if</span>(topics[m][i].token === token){</div><div class="line">                        topics[m].splice(i, <span class="number">1</span>);</div><div class="line">                        <span class="keyword">return</span> token;</div><div class="line">                    }</div><div class="line">                }</div><div class="line">            }</div><div class="line">        }</div><div class="line">        <span class="keyword">return</span> <span class="keyword">this</span>;</div><div class="line">    }</div><div class="line">})(pubSub);</div></pre></td></tr></table></figure>
+<p>`</p>
+<p><strong>例子2</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> badSingleton = (<span class="function"><span class="keyword">function</span><span class="params">()</span></span>{</div><div class="line">	<span class="keyword">var</span> instance;</div><div class="line">	<span class="keyword">var</span> init = <span class="function"><span class="keyword">function</span><span class="params">()</span></span>{</div><div class="line">		<span class="keyword">var</span> privateRandomNumber = <span class="built_in">Math</span>.random();</div><div class="line">		<span class="keyword">return</span> {</div><div class="line">			getRandomNumber: <span class="function"><span class="keyword">function</span><span class="params">()</span></span>{</div><div class="line">				<span class="keyword">return</span> privateRandomNumber;</div><div class="line">			}</div><div class="line">		}</div><div class="line">	}</div><div class="line">	<span class="keyword">return</span> {</div><div class="line">		getInstance: <span class="function"><span class="keyword">function</span><span class="params">()</span></span>{</div><div class="line">			instance = init();</div><div class="line">			<span class="keyword">return</span> instance; </div><div class="line">		}</div><div class="line">	}</div><div class="line">})();</div><div class="line"><span class="keyword">var</span> badSingleA = badSingleton.getInstance();</div><div class="line"><span class="keyword">var</span> badSingleB = badSingleton.getInstance();</div><div class="line"><span class="built_in">console</span>.log(badSingleA.getRandomNumber() == badSingleB.getRandomNumber()) <span class="comment">// 结果是什么</span></div></pre></td></tr></table></figure>
+
+<p>`</p>
+<p>延迟执行很重要！当Singleon作为一个静态实例时，可以延迟构建，在需要使用是进行构建，而不是在开始就直接初始化，占用资源和内存。</p>
+<p><strong>例子</strong></p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> SingletonTest = (<span class="function"><span class="keyword">function</span><span class="params">()</span></span>{</div><div class="line">    <span class="function"><span class="keyword">function</span> <span class="title">Singleon</span><span class="params">(options)</span></span>{</div><div class="line">        options = options || {};</div><div class="line">        <span class="keyword">this</span>.name = <span class="string">"misar"</span>;</div><div class="line">        <span class="keyword">this</span>.poinx = options.poinX || <span class="number">6</span>;</div><div class="line">        <span class="keyword">this</span>.poinY = options.poinY || <span class="number">10</span>;</div><div class="line">    }</div><div class="line"></div><div class="line">    <span class="keyword">var</span> instance;<span class="comment">//保存实例</span></div><div class="line">    <span class="keyword">var</span> _static = {</div><div class="line">        name:<span class="string">"test"</span>,</div><div class="line">        getInstance: <span class="function"><span class="keyword">function</span><span class="params">(options)</span></span>{</div><div class="line">            <span class="keyword">if</span>(!instance){</div><div class="line">                instance = <span class="keyword">new</span> Singleon(options);</div><div class="line">            }</div><div class="line">            <span class="keyword">return</span> instance;</div><div class="line">        }</div><div class="line">    }</div><div class="line">    <span class="keyword">return</span> _static;</div><div class="line">})();</div><div class="line"></div><div class="line"><span class="keyword">var</span> test = SingleonTest.getInstance({</div><div class="line">    poinX: <span class="number">100</span></div><div class="line">})</div><div class="line"></div><div class="line"><span class="built_in">console</span>.log(test.poinX);<span class="comment">//100</span></div></pre></td></tr></table></figure>
+
+<p><strong>使用单例实现分支</strong></p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> SimpleXhrFactory = (<span class="function"><span class="keyword">function</span><span class="params">()</span> </span>{</div><div class="line">    <span class="comment">// 两个分支</span></div><div class="line">    <span class="keyword">var</span> standard = {</div><div class="line">        createXhrObject: <span class="function"><span class="keyword">function</span><span class="params">()</span> </span>{</div><div class="line">            alert(<span class="string">"standard createXhrObject"</span>);</div><div class="line">            <span class="keyword">return</span> <span class="keyword">new</span> XMLHttpRequest();</div><div class="line">        }</div><div class="line">    };</div><div class="line">    <span class="keyword">var</span> activeXNew = {</div><div class="line">        createXhrObject: <span class="function"><span class="keyword">function</span><span class="params">()</span> </span>{</div><div class="line">            alert(<span class="string">"activeXNew createXhrObject"</span>);</div><div class="line">            <span class="keyword">return</span> <span class="keyword">new</span> ActiveXObject(<span class="string">"Msxml2.XMLHTTP"</span>);</div><div class="line">        }</div><div class="line">    };</div><div class="line">    <span class="comment">// 为分支赋值</span></div><div class="line">    <span class="keyword">var</span> testObject;</div><div class="line">    <span class="keyword">try</span> {</div><div class="line">        testObject = standard.createXhrObject();</div><div class="line">        <span class="keyword">return</span> standard;</div><div class="line">    } <span class="keyword">catch</span>(e) {</div><div class="line">        testObject = activeXNew.createXhrObject();</div><div class="line">        <span class="keyword">return</span> activeXNew;</div><div class="line">    }</div><div class="line">})();</div><div class="line"></div><div class="line">SimpleXhrFactory.createXhrObject();</div></pre></td></tr></table></figure>
+
+<p>用了分支后，所有的那些特性嗅探代码都只会执行一次，而不是没生成一个对象执行一次。</p>
+<h3 id="比较常见的例子(来自网络)">比较常见的例子(来自网络)</h3>
+<p><strong>需求</strong></p>
+<p>点击某个按钮的时候需要在页面弹出一个遮罩层</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> createMask = <span class="function"><span class="keyword">function</span><span class="params">()</span></span>{</div><div class="line">	<span class="keyword">return</span> <span class="built_in">document</span>.body.appendChild( 				<span class="built_in">document</span>.createElement(<span class="string">'div'</span>) );</div><div class="line">}</div><div class="line"></div><div class="line"></div><div class="line">$( <span class="string">'button'</span> ).click( <span class="function"><span class="keyword">function</span><span class="params">()</span></span>{</div><div class="line">    <span class="keyword">var</span> mask = createMask();</div><div class="line">    mask.show();</div><div class="line">})</div></pre></td></tr></table></figure>
+
+<p>有什么问题呢？每次点击都会生成一个新的遮罩，虽然我们可以先remove，再生成，是不是有点不合理呢</p>
+<p>改进</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> mask = <span class="built_in">document</span>.body.appendChild( <span class="built_in">document</span>.createElement( <span class="string">'div'</span> ) );</div><div class="line">    $( <span class="string">'button'</span> ).click( <span class="function"><span class="keyword">function</span><span class="params">()</span></span>{</div><div class="line">    mask.show();</div><div class="line">} )</div></pre></td></tr></table></figure>
+
+<p>这样可以吗？确实只会创建一个遮罩层。但是另外一个问题随之而来, 也许我们永远都不需要这个遮罩层, 那又浪费掉一个div, 对dom节点的任何操作都应该非常吝啬.<br>如果可以借助一个变量. 来判断是否已经创建过div呢?</p>
+<p>改进</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> mask;</div><div class="line"><span class="keyword">var</span> createMask = <span class="function"><span class="keyword">function</span><span class="params">()</span></span>{</div><div class="line">    <span class="keyword">if</span> (!mask ) {</div><div class="line">        mask = <span class="built_in">document</span>,body.appendChild( <span class="built_in">document</span>.createElement(<span class="string">'div'</span>) );</div><div class="line">    }</div><div class="line">    <span class="keyword">return</span> mask;</div><div class="line">}</div></pre></td></tr></table></figure>
+
+<p>上面代码有什么不合适的地方呢？全局变量暴露。so</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> createMask = <span class="function"><span class="keyword">function</span><span class="params">()</span></span>{</div><div class="line">    <span class="keyword">var</span> mask;</div><div class="line">    <span class="keyword">return</span> <span class="function"><span class="keyword">function</span><span class="params">()</span></span>{</div><div class="line">        <span class="keyword">return</span> mask || ( mask = <span class="built_in">document</span>.body.appendChild( <span class="built_in">document</span>.createElement(<span class="string">'div'</span>) ) )</div><div class="line">    }</div><div class="line">}()</div></pre></td></tr></table></figure>
 
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2014/10/20/发布订阅模式(Pubsub)/" data-id="07fihgglvzwu12ag" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2014/10/20/单例模式(singletion)/" data-id="0nz8js32kml11wq6" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/设计模式/">设计模式</a></li></ul>
@@ -597,136 +297,6 @@
 
 
   
-    <article id="post-发布订阅模式(Pubsub)" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2014/10/20/发布订阅模式(Pubsub)/" class="article-date">
-  <time datetime="2014-10-20T14:56:59.000Z" itemprop="datePublished">Oct 20 2014</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/设计模式/">设计模式</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2014/10/20/发布订阅模式(Pubsub)/">发布订阅模式（Pub/Sub）</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="发布/订阅模式解释">发布/订阅模式解释</h3>
-<p><code>Publish/Subscribe</code>模式使用了一个主题/事件通道。也称之为”自定义事件”。这个通道是介于<code>激活该事件</code>的对象（称之为发布者）与希望<code>接收通知</code>的对象（subscribe）之间。并不是一个对象调用另一个对象的方法。</p>
-<h3 id="发布/订阅模式与observer模式的区别">发布/订阅模式与observer模式的区别</h3>
-<p>通常人们会把<code>observer</code>模式认为是<code>Publish/subscribe</code>模式。其实还是有一定的区别。只是<code>Publish/subscribe</code>应用的比较广泛。那么他们的区别到底是什么？回顾observer模式。该模式希望观察者必须订阅内容改变事件。也就是说必须调用观察者的某个change事件。而发布订阅模式是通过一个事件。通俗的讲也就是通过一个通知告诉订阅者。而订阅者做其他的操作。</p>
-<h3 id="举例说明">举例说明</h3>
-<p><strong>例子1</strong></p>
-<p>课铃为2声、放学铃为5声。当学生听到5声时就知道是放学了。铃声就是通知。这个时候有人回家了，有人把妹了。跟发布者有半毛钱关系吗？</p>
-<p>上述例子中，时间控制系统可以理解为发布者，学生and工作人员可以理解为订阅者。不同的铃声就是不同的事件。</p>
-<p><strong>例子2</strong></p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//简单的mail处理程序</span></div><div class="line"></div><div class="line"><span class="comment">//接收到的消息数量</span></div><div class="line"><span class="keyword">var</span> nMailCount = <span class="number">0</span>;</div><div class="line"></div><div class="line"><span class="comment">//订阅1, 事件为 newMessage</span></div><div class="line"><span class="keyword">var</span> subscribe1 = subscribe(<span class="string">"newMessage"</span>, <span class="function"><span class="keyword">function</span> <span class="params">(topic, data)</span></span>{</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">"收到新消息："</span>+ topic);</div><div class="line">    <span class="comment">//呈现消息预览</span></div><div class="line">    $(<span class="string">"#title"</span>).html(data.title);</div><div class="line">    $(<span class="string">"#body"</span>).html(data.body);</div><div class="line">})</div><div class="line"></div><div class="line"><span class="comment">//订阅2。使用同样的data数据，处理不同的业务逻辑</span></div><div class="line"><span class="keyword">var</span> subscribe2 = subscribe(<span class="string">"newMessage"</span>, <span class="function"><span class="keyword">function</span> <span class="params">(topic, data)</span></span>{</div><div class="line">    $(<span class="string">"#count"</span>).html(nMailCount++); </div><div class="line">})</div><div class="line"></div><div class="line"><span class="comment">//发布者</span></div><div class="line">publish(<span class="string">"newMessage"</span>, [{</div><div class="line">    title: <span class="string">"我是标题"</span>,</div><div class="line">    body:<span class="string">"我爱前端"</span></div><div class="line">}]);</div></pre></td></tr></table></figure>
-
-<h3 id="具体的实现">具体的实现</h3>
-<p><strong>分析</strong></p>
-<ul>
-<li><p>发布者 (publish) 一个</p>
-</li>
-<li><p>订阅者(subscribe) 可能有多个</p>
-</li>
-</ul>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> pubSub = {};</div><div class="line">(<span class="function"><span class="keyword">function</span><span class="params">(myObject)</span></span>{</div><div class="line">    <span class="keyword">var</span> topics = {}, <span class="comment">//保存topic集合</span></div><div class="line">    subUid=  -<span class="number">1</span>;</div><div class="line">    <span class="comment">//发布通知，包含特定的topic名称，以及参数</span></div><div class="line">    myObject.publish = functiion(topic, args){</div><div class="line">        <span class="keyword">if</span>(!topics[topic]){</div><div class="line">                <span class="keyword">return</span> <span class="literal">false</span>;</div><div class="line">        }</div><div class="line">        <span class="keyword">var</span> subscribers = topics[topic],</div><div class="line">        len = subscribers ? subscribers.length : <span class="number">0</span>;</div><div class="line"></div><div class="line">        <span class="keyword">while</span>(len--){</div><div class="line">               subscribers[len].func(topic, args);</div><div class="line">        }</div><div class="line">        <span class="keyword">return</span> <span class="keyword">this</span>;</div><div class="line">    }</div><div class="line"></div><div class="line">    <span class="comment">//通过特定的名称和回调函数订阅事件。topic触发时执行</span></div><div class="line">    myObject.subscribe = funciton (topic, func){</div><div class="line">        <span class="keyword">if</span>(!topics[topic]){</div><div class="line">            topics[topic] = [];</div><div class="line">        }</div><div class="line">        <span class="keyword">var</span> token = (++subUid).toString();</div><div class="line">        topics[topic].push({</div><div class="line">            token: token,</div><div class="line">            func: func</div><div class="line">        });</div><div class="line">        <span class="keyword">return</span> token;</div><div class="line">    }</div><div class="line"></div><div class="line">    <span class="comment">//取消订阅</span></div><div class="line">    myObject.unSubscribe = <span class="function"><span class="keyword">function</span><span class="params">()</span></span>{</div><div class="line">        <span class="keyword">for</span>(<span class="keyword">var</span> m <span class="keyword">in</span> topics){</div><div class="line">            <span class="keyword">if</span>(topics[m]){</div><div class="line">                <span class="keyword">for</span>(<span class="keyword">var</span> i =<span class="number">0</span>, j = topics[m].length;i&lt;j; i++){</div><div class="line">                    <span class="keyword">if</span>(topics[m][i].token === token){</div><div class="line">                        topics[m].splice(i, <span class="number">1</span>);</div><div class="line">                        <span class="keyword">return</span> token;</div><div class="line">                    }</div><div class="line">                }</div><div class="line">            }</div><div class="line">        }</div><div class="line">        <span class="keyword">return</span> <span class="keyword">this</span>;</div><div class="line">    }</div><div class="line">})(pubSub);</div></pre></td></tr></table></figure>
-
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2014/10/20/发布订阅模式(Pubsub)/" data-id="xgrn7rv5oscq1lkx" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/设计模式/">设计模式</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-发布订阅模式(Pubsub)" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2014/10/20/发布订阅模式(Pubsub)/" class="article-date">
-  <time datetime="2014-10-20T14:56:59.000Z" itemprop="datePublished">Oct 20 2014</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/设计模式/">设计模式</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2014/10/20/发布订阅模式(Pubsub)/">发布订阅模式（Pub/Sub）</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="发布/订阅模式解释">发布/订阅模式解释</h3>
-<p><code>Publish/Subscribe</code>模式使用了一个主题/事件通道。也称之为”自定义事件”。这个通道是介于<code>激活该事件</code>的对象（称之为发布者）与希望<code>接收通知</code>的对象（subscribe）之间。并不是一个对象调用另一个对象的方法。</p>
-<h3 id="发布/订阅模式与observer模式的区别">发布/订阅模式与observer模式的区别</h3>
-<p>通常人们会把<code>observer</code>模式认为是<code>Publish/subscribe</code>模式。其实还是有一定的区别。只是<code>Publish/subscribe</code>应用的比较广泛。那么他们的区别到底是什么？回顾observer模式。该模式希望观察者必须订阅内容改变事件。也就是说必须调用观察者的某个change事件。而发布订阅模式是通过一个事件。通俗的讲也就是通过一个通知告诉订阅者。而订阅者做其他的操作。</p>
-<h3 id="举例说明">举例说明</h3>
-<p><strong>例子1</strong></p>
-<p>课铃为2声、放学铃为5声。当学生听到5声时就知道是放学了。铃声就是通知。这个时候有人回家了，有人把妹了。跟发布者有半毛钱关系吗？</p>
-<p>上述例子中，时间控制系统可以理解为发布者，学生and工作人员可以理解为订阅者。不同的铃声就是不同的事件。</p>
-<p><strong>例子2</strong></p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//简单的mail处理程序</span></div><div class="line"></div><div class="line"><span class="comment">//接收到的消息数量</span></div><div class="line"><span class="keyword">var</span> nMailCount = <span class="number">0</span>;</div><div class="line"></div><div class="line"><span class="comment">//订阅1, 事件为 newMessage</span></div><div class="line"><span class="keyword">var</span> subscribe1 = subscribe(<span class="string">"newMessage"</span>, <span class="function"><span class="keyword">function</span> <span class="params">(topic, data)</span></span>{</div><div class="line">    <span class="built_in">console</span>.log(<span class="string">"收到新消息："</span>+ topic);</div><div class="line">    <span class="comment">//呈现消息预览</span></div><div class="line">    $(<span class="string">"#title"</span>).html(data.title);</div><div class="line">    $(<span class="string">"#body"</span>).html(data.body);</div><div class="line">})</div><div class="line"></div><div class="line"><span class="comment">//订阅2。使用同样的data数据，处理不同的业务逻辑</span></div><div class="line"><span class="keyword">var</span> subscribe2 = subscribe(<span class="string">"newMessage"</span>, <span class="function"><span class="keyword">function</span> <span class="params">(topic, data)</span></span>{</div><div class="line">    $(<span class="string">"#count"</span>).html(nMailCount++); </div><div class="line">})</div><div class="line"></div><div class="line"><span class="comment">//发布者</span></div><div class="line">publish(<span class="string">"newMessage"</span>, [{</div><div class="line">    title: <span class="string">"我是标题"</span>,</div><div class="line">    body:<span class="string">"我爱前端"</span></div><div class="line">}]);</div></pre></td></tr></table></figure>
-
-<h3 id="具体的实现">具体的实现</h3>
-<p><strong>分析</strong></p>
-<ul>
-<li><p>发布者 (publish) 一个</p>
-</li>
-<li><p>订阅者(subscribe) 可能有多个</p>
-</li>
-</ul>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> pubSub = {};</div><div class="line">(<span class="function"><span class="keyword">function</span><span class="params">(myObject)</span></span>{</div><div class="line">    <span class="keyword">var</span> topics = {}, <span class="comment">//保存topic集合</span></div><div class="line">    subUid=  -<span class="number">1</span>;</div><div class="line">    <span class="comment">//发布通知，包含特定的topic名称，以及参数</span></div><div class="line">    myObject.publish = functiion(topic, args){</div><div class="line">        <span class="keyword">if</span>(!topics[topic]){</div><div class="line">                <span class="keyword">return</span> <span class="literal">false</span>;</div><div class="line">        }</div><div class="line">        <span class="keyword">var</span> subscribers = topics[topic],</div><div class="line">        len = subscribers ? subscribers.length : <span class="number">0</span>;</div><div class="line"></div><div class="line">        <span class="keyword">while</span>(len--){</div><div class="line">               subscribers[len].func(topic, args);</div><div class="line">        }</div><div class="line">        <span class="keyword">return</span> <span class="keyword">this</span>;</div><div class="line">    }</div><div class="line"></div><div class="line">    <span class="comment">//通过特定的名称和回调函数订阅事件。topic触发时执行</span></div><div class="line">    myObject.subscribe = funciton (topic, func){</div><div class="line">        <span class="keyword">if</span>(!topics[topic]){</div><div class="line">            topics[topic] = [];</div><div class="line">        }</div><div class="line">        <span class="keyword">var</span> token = (++subUid).toString();</div><div class="line">        topics[topic].push({</div><div class="line">            token: token,</div><div class="line">            func: func</div><div class="line">        });</div><div class="line">        <span class="keyword">return</span> token;</div><div class="line">    }</div><div class="line"></div><div class="line">    <span class="comment">//取消订阅</span></div><div class="line">    myObject.unSubscribe = <span class="function"><span class="keyword">function</span><span class="params">()</span></span>{</div><div class="line">        <span class="keyword">for</span>(<span class="keyword">var</span> m <span class="keyword">in</span> topics){</div><div class="line">            <span class="keyword">if</span>(topics[m]){</div><div class="line">                <span class="keyword">for</span>(<span class="keyword">var</span> i =<span class="number">0</span>, j = topics[m].length;i&lt;j; i++){</div><div class="line">                    <span class="keyword">if</span>(topics[m][i].token === token){</div><div class="line">                        topics[m].splice(i, <span class="number">1</span>);</div><div class="line">                        <span class="keyword">return</span> token;</div><div class="line">                    }</div><div class="line">                }</div><div class="line">            }</div><div class="line">        }</div><div class="line">        <span class="keyword">return</span> <span class="keyword">this</span>;</div><div class="line">    }</div><div class="line">})(pubSub);</div></pre></td></tr></table></figure>
-
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2014/10/20/发布订阅模式(Pubsub)/" data-id="ys7bh6xb3a7u2lwv" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/设计模式/">设计模式</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-  
-    <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/categories/设计模式/page/2/">2</a><a class="extend next" rel="next" href="/categories/设计模式/page/2/">Next &raquo;</a>
-    </nav>
   
 </section>
         
@@ -736,7 +306,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Categories</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/flex/">flex</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/设计模式/">设计模式</a><span class="category-list-count">12</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/flex/">flex</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/设计模式/">设计模式</a><span class="category-list-count">3</span></li></ul>
     </div>
   </div>
 
@@ -745,7 +315,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/flex/">flex</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/svn/">svn</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/设计模式/">设计模式</a><span class="tag-list-count">12</span></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/flex/">flex</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/svn/">svn</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/设计模式/">设计模式</a><span class="tag-list-count">3</span></li></ul>
     </div>
   </div>
 
@@ -763,7 +333,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">October 2014</a><span class="archive-list-count">13</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">October 2014</a><span class="archive-list-count">4</span></li></ul>
     </div>
   </div>
 
@@ -775,7 +345,7 @@
       <ul>
         
           <li>
-            <a href="/2014/10/20/发布订阅模式(Pubsub)/">发布订阅模式（Pub/Sub）</a>
+            <a href="/2014/10/20/观察者模式(Observer)/">观察者模式（Observer）</a>
           </li>
         
           <li>
@@ -783,15 +353,11 @@
           </li>
         
           <li>
-            <a href="/2014/10/20/发布订阅模式(Pubsub)/">发布订阅模式（Pub/Sub）</a>
+            <a href="/2014/10/20/svn-cleanup-field 错误解决办法/">flex中  svn 执行 cleanup 出现cleanup field 错误 解决办法</a>
           </li>
         
           <li>
-            <a href="/2014/10/20/发布订阅模式(Pubsub)/">发布订阅模式（Pub/Sub）</a>
-          </li>
-        
-          <li>
-            <a href="/2014/10/20/发布订阅模式(Pubsub)/">发布订阅模式（Pub/Sub）</a>
+            <a href="/2014/10/20/单例模式(singletion)/">单例模式（Singleton）</a>
           </li>
         
       </ul>
