@@ -144,7 +144,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2014/10/20/观察者模式(Observer)/" data-id="kvg2pq8uz66gundu" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2014/10/20/观察者模式(Observer)/" data-id="3or2z6zzbjr4il7c" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/设计模式/">设计模式</a></li></ul>
@@ -207,67 +207,10 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2014/10/20/发布订阅模式(Pubsub)/" data-id="2k5y6m3yhd4bnedr" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2014/10/20/发布订阅模式(Pubsub)/" data-id="wgl78ai77lk9yfar" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/设计模式/">设计模式</a></li></ul>
-
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="svn-svn-cleanup-field 错误解决办法" class="article article-type-svn" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2014/10/20/svn-cleanup-field 错误解决办法/" class="article-date">
-  <time datetime="2014-10-20T08:50:59.000Z" itemprop="datePublished">Oct 20 2014</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/flex/">flex</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2014/10/20/svn-cleanup-field 错误解决办法/">flex中  svn 执行 cleanup 出现cleanup field 错误 解决办法</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>在团队项目中，通常是几个成员维护一个项目，经常需要相互的checkout, 老是会遇到svn卡死的情况，然后就会执行<code>cleanup</code>,就会出现下面的错误</p>
-<p><img src="/resource/images/20141020171738.jpg" alt=""></p>
-<h4 id="解决办法">解决办法</h4>
-<p>1.下载sqlite3.exe  </p>
-<p>2.找到你项目的.svn文件，查看是否存在wc.db</p>
-<p>3.将sqlite3.exe放到.svn的同级目录</p>
-<p>4.在该目录中启动cmd(shift+鼠标右键)</p>
-<p><strong>执行</strong></p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sqlite .svn/wc.db <span class="string">"select * from work_queue"</span></div></pre></td></tr></table></figure>
-
-<p>如果有错误的话，就会有一条记录。删除即可</p>
-<p><strong>删除</strong></p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sqlite .svn/wc.db <span class="string">"delete from work_queue"</span></div></pre></td></tr></table></figure>
-
-<p>5.如果想确认是否删除干净，继续执行<code>select</code>查询命令</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2014/10/20/svn-cleanup-field 错误解决办法/" data-id="d4x7gut3mjly92k2" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/flex/">flex</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/svn/">svn</a></li></ul>
 
     </footer>
   </div>
@@ -342,10 +285,67 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2014/10/20/单例模式(singletion)/" data-id="0nz8js32kml11wq6" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2014/10/20/单例模式(singletion)/" data-id="lugb4mwo7qt7t1x1" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/设计模式/">设计模式</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="svn-svn-cleanup-field 错误解决办法" class="article article-type-svn" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2014/10/20/svn-cleanup-field 错误解决办法/" class="article-date">
+  <time datetime="2014-10-20T08:50:59.000Z" itemprop="datePublished">Oct 20 2014</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/flex/">flex</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/10/20/svn-cleanup-field 错误解决办法/">flex中  svn 执行 cleanup 出现cleanup field 错误 解决办法</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在团队项目中，通常是几个成员维护一个项目，经常需要相互的checkout, 老是会遇到svn卡死的情况，然后就会执行<code>cleanup</code>,就会出现下面的错误</p>
+<p><img src="/resource/images/20141020171738.jpg" alt=""></p>
+<h4 id="解决办法">解决办法</h4>
+<p>1.下载sqlite3.exe  </p>
+<p>2.找到你项目的.svn文件，查看是否存在wc.db</p>
+<p>3.将sqlite3.exe放到.svn的同级目录</p>
+<p>4.在该目录中启动cmd(shift+鼠标右键)</p>
+<p><strong>执行</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sqlite .svn/wc.db <span class="string">"select * from work_queue"</span></div></pre></td></tr></table></figure>
+
+<p>如果有错误的话，就会有一条记录。删除即可</p>
+<p><strong>删除</strong></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sqlite .svn/wc.db <span class="string">"delete from work_queue"</span></div></pre></td></tr></table></figure>
+
+<p>5.如果想确认是否删除干净，继续执行<code>select</code>查询命令</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2014/10/20/svn-cleanup-field 错误解决办法/" data-id="ockxmqwcuq9fna6j" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/flex/">flex</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/svn/">svn</a></li></ul>
 
     </footer>
   </div>
@@ -410,11 +410,11 @@
           </li>
         
           <li>
-            <a href="/2014/10/20/svn-cleanup-field 错误解决办法/">flex中  svn 执行 cleanup 出现cleanup field 错误 解决办法</a>
+            <a href="/2014/10/20/单例模式(singletion)/">单例模式（Singleton）</a>
           </li>
         
           <li>
-            <a href="/2014/10/20/单例模式(singletion)/">单例模式（Singleton）</a>
+            <a href="/2014/10/20/svn-cleanup-field 错误解决办法/">flex中  svn 执行 cleanup 出现cleanup field 错误 解决办法</a>
           </li>
         
       </ul>
