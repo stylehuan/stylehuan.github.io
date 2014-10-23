@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Category: Tool | Dabbler</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Dabbler">
+<meta property="og:url" content="http://yoursite.com/categories/Tool/">
+<meta property="og:site_name" content="Dabbler">
+<meta property="og:description">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Dabbler">
+<meta name="twitter:description">
+
+  
+    <link rel="alternative" href="/atom.xml" title="Dabbler" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+  
+
+</head>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Dabbler</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">行走在js与as之间的半吊子</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" results="0" class="search-form-input" placeholder="Search"><input type="submit" value="&#xF002;" class="search-form-submit"><input type="hidden" name="q" value="site:http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-Sass学习笔记" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2014/10/20/Sass学习笔记/" class="article-date">
+  <time datetime="2014-10-20T14:56:59.000Z" itemprop="datePublished">Oct 20 2014</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Tool/">Tool</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/10/20/Sass学习笔记/">Sass学习笔记-基础篇</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>css预编译已经非常成熟了。到处都能见到她们的身影。加上项目的原因，一直没有深入了解，并投入生产。整理下自己学习sass的笔记，主要从以下几个方面开始：</p>
+<h3 id="语法">语法</h3>
+<p>简单了解下，sass的语法和标准的css语法差不多，只是文件扩展名以<code>.sass</code>结尾。</p>
+<p>具体的语法</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="tag">div</span><span class="rules">{</span></div><div class="line"> <span class="rule"><span class="attribute">color</span>:<span class="value"><span class="hexcolor">#fff</span></span></span>;</div><div class="line"><span class="rule">}</span></div></pre></td></tr></table></figure>
+
+<p>或者</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="tag">div</span></div><div class="line"> <span class="attribute">color</span><span class="value">:<span class="hexcolor">#fff</span>;</span></div></pre></td></tr></table></figure>
+
+<h3 id="变量">变量</h3>
+<p>可以在css预编译器中声明变量。然后在样式文件中使用这些变量。这些变量可以保存任何值。颜色、数值、文本等。</p>
+<p>需要注意的是</p>
+<ul>
+<li><p>sass声明的变量必须是<code>$</code>开头的。从编程习惯来讲，变量名要语义化。</p>
+</li>
+<li><p>如果变量需要嵌套再字符串中。就必须写在<code>#{}</code>之中。</p>
+</li>
+</ul>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="variable">$w_2</span><span class="value">: <span class="number">2px</span>;</span><span class="comment">//2px</span></div><div class="line"><span class="variable">$w_5</span><span class="value">:<span class="number">5px</span>;</span><span class="comment">//5px</span></div><div class="line"></div><div class="line"><span class="variable">$left</span><span class="pseudo">:left</span><span class="comment">//普通文本</span></div><div class="line"></div><div class="line"><span class="tag">div</span>{</div><div class="line">	<span class="attribute">border-width</span><span class="value">: <span class="variable">$w_2</span>;</span></div><div class="line">}</div><div class="line"></div><div class="line"><span class="tag">a</span>{</div><div class="line">	<span class="attribute">margin</span>-#{<span class="variable">$left</span>}<span class="value">:<span class="variable">$w_5</span>;</span></div><div class="line">}</div></pre></td></tr></table></figure>
+
+<h3 id="嵌套">嵌套</h3>
+<ul>
+<li>选择器嵌套</li>
+</ul>
+<p>什么是选择器嵌套？其实就是 css中子选择器，要多次引用相同的父选择器。你需要这样</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="class">.a</span><span class="rules">{<span class="rule"><span class="attribute">margin</span>:<span class="value"><span class="number">10px</span></span></span></span>}</div><div class="line"><span class="class">.a</span> <span class="tag">i</span><span class="rules">{<span class="rule"><span class="attribute">color</span>:<span class="value"><span class="hexcolor">#fff</span></span></span></span>}</div><div class="line"><span class="class">.a</span> <span class="tag">b</span><span class="rules">{<span class="rule"><span class="attribute">font-size</span>:<span class="value"><span class="number">14px</span></span></span>;<span class="rule">}</span></span></div></pre></td></tr></table></figure>
+
+<p>重复的引用<code>.a</code>。</p>
+<p>而sass就可以减少多次的引用。二者层级关系很明显。说到层级关系，可能你日常中如果是通过tab缩进来达到形成层级的目的。那么对这个层级就更好理解了</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="class">.a</span><span class="rules">{</span></div><div class="line">	<span class="rule"><span class="attribute">margin</span>:<span class="value"><span class="number">10px</span></span></span></div><div class="line">	i{</div><div class="line">		color:<span class="hexcolor">#fff</span>;</div><div class="line">	<span class="rule">}</span></div><div class="line">	<span class="tag">b</span><span class="rules">{</span></div><div class="line">		<span class="rule"><span class="attribute">font-size</span>:<span class="value"><span class="number">14px</span></span></span>;</div><div class="line">	<span class="rule">}</span></div><div class="line">}</div></pre></td></tr></table></figure>
+
+<p>最终编译生成后的样式</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="class">.a</span><span class="rules">{<span class="rule"><span class="attribute">margin</span>:<span class="value"><span class="number">10px</span></span></span></span>}</div><div class="line"><span class="class">.a</span> <span class="tag">i</span><span class="rules">{<span class="rule"><span class="attribute">color</span>:<span class="value"><span class="hexcolor">#fff</span></span></span></span>}</div><div class="line"><span class="class">.a</span> <span class="tag">b</span><span class="rules">{<span class="rule"><span class="attribute">font-size</span>:<span class="value"><span class="number">14px</span></span></span>;<span class="rule">}</span></span></div></pre></td></tr></table></figure>
+
+<p>nice! </p>
+<ul>
+<li>属性嵌套</li>
+</ul>
+<p>属性后面必须要有 <code>:</code> 冒号; </p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="tag">p</span><span class="rules">{</span></div><div class="line">	<span class="rule"><span class="attribute">border</span>:<span class="value">{</span></span></div><div class="line">		color:red;</div><div class="line">	<span class="rule">}</span></div><div class="line">}</div></pre></td></tr></table></figure>
+
+<ul>
+<li>嵌套内的引用</li>
+</ul>
+<p>在嵌套的样式中，可以使用<code>&amp;</code>对父类的引用。</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="operator">a</span>{</div><div class="line"> $:hover{<span class="keyword">text</span>-decoration:<span class="constant">none</span>}</div><div class="line">}</div></pre></td></tr></table></figure>
+
+<h3 id="继承">继承</h3>
+<p>继承！搞得css真的像一门语言了~~~ 有点高大上</p>
+<p>说道继承，那肯定得有个<em>基类</em>,就像强类型语言一样</p>
+<p>so,先定义一个“基类”</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="class">.rest</span><span class="rules">{</span></div><div class="line">	<span class="rule"><span class="attribute">margin</span>:<span class="value"><span class="number">0</span></span></span>;<span class="rule"><span class="attribute">padding</span>:<span class="value"><span class="number">0</span></span></span>;</div><div class="line"><span class="rule">}</span></div></pre></td></tr></table></figure>
+
+<p>“实现”继承</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="tag">p</span>{</div><div class="line">	<span class="at_rule">@<span class="keyword">extend</span><span class="preprocessor"> .rest</span></span></div><div class="line">}</div><div class="line"><span class="preprocessor"></span></div><div class="line">ul,<span class="preprocessor"> li</span>{</div><div class="line">	<span class="at_rule">@<span class="keyword">extend</span><span class="preprocessor"> .rest</span></span></div><div class="line"><span class="preprocessor">	font-size</span>:<span class="number">0</span>;</div><div class="line">}</div></pre></td></tr></table></figure>
+
+<p>最终</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="tag">p</span><span class="rules">{<span class="rule"><span class="attribute">margin</span>:<span class="value"><span class="number">0</span></span></span>;<span class="rule"><span class="attribute">padding</span>:<span class="value"><span class="number">0</span></span></span>;<span class="rule">}</span></span></div><div class="line"><span class="tag">ul</span>, <span class="tag">li</span><span class="rules">{<span class="rule"><span class="attribute">margin</span>:<span class="value"><span class="number">0</span></span></span>;<span class="rule"><span class="attribute">padding</span>:<span class="value"><span class="number">0</span></span></span>;<span class="rule"><span class="attribute">font-size</span>:<span class="value"><span class="number">0</span></span></span>;<span class="rule">}</span></span></div><div class="line">}</div></pre></td></tr></table></figure>
+
+<h3 id="Mixins(混入)">Mixins(混入)</h3>
+<p><code>Mixins</code>像一个函数。需要的地方可以调用。还能传参。</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="at_rule">@<span class="keyword">mixin</span><span class="preprocessor"> border</span>(<span class="variable">$w</span>:<span class="preprocessor"> 2px</span>){</span></div><div class="line">	<span class="attribute">border</span><span class="value">: <span class="variable">$w</span> dashed <span class="hexcolor">#000</span>;</span></div><div class="line">}</div><div class="line"></div><div class="line"><span class="class">.nav</span> {</div><div class="line">	<span class="attribute">padding</span><span class="value">:<span class="number">2px</span>;</span></div><div class="line">	<span class="at_rule">@<span class="keyword">include</span><span class="preprocessor"> border</span>(<span class="number">1px</span>);</span></div><div class="line">}</div></pre></td></tr></table></figure>
+
+<p>结果</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="class">.nav</span><span class="rules">{</span></div><div class="line">	<span class="rule"><span class="attribute">padding</span>:<span class="value"><span class="number">2px</span></span></span>;</div><div class="line">	<span class="rule"><span class="attribute">border</span>:<span class="value"> <span class="number">1px</span> dashed <span class="hexcolor">#000</span></span></span>;</div><div class="line"><span class="rule">}</span></div></pre></td></tr></table></figure>
+
+<h3 id="导入(Import)">导入(Import)</h3>
+<p>此导入非彼导入。标准的导入需要多次的http请求。这里的导入则不同。只是包含了不同的文件。最终编译生成后还是一个css文件。</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="tag">a</span><span class="class">.css</span></div><div class="line"></div><div class="line"><span class="tag">main</span><span class="class">.sass</span></div><div class="line"></div><div class="line"><span class="at_rule">@<span class="keyword">import</span> <span class="string">"a.css"</span></span>;</div></pre></td></tr></table></figure>
+
+<h3 id="Math运算">Math运算</h3>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="tag">div</span><span class="rules">{</span></div><div class="line">	<span class="rule"><span class="attribute">margin</span>:<span class="value"> (<span class="number">4px</span>/<span class="number">2</span>)</span></span>;</div><div class="line"><span class="rule">}</span></div></pre></td></tr></table></figure>
+
+<h3 id="注释">注释</h3>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">单行注释  <span class="comment">//这是单行注释</span></div><div class="line">多行注释  <span class="comment">/*这是多行注释*/</span></div></pre></td></tr></table></figure>
+
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2014/10/20/Sass学习笔记/" data-id="ottno5m13ppyu7hk" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/css/">css</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/sass/">sass</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+  
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Tool/">Tool</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/flex/">flex</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/设计模式/">设计模式</a><span class="category-list-count">3</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/css/">css</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/flex/">flex</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sass/">sass</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/svn/">svn</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/设计模式/">设计模式</a><span class="tag-list-count">3</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/css/" style="font-size: 10.00px;">css</a><a href="/tags/flex/" style="font-size: 10.00px;">flex</a><a href="/tags/sass/" style="font-size: 10.00px;">sass</a><a href="/tags/svn/" style="font-size: 10.00px;">svn</a><a href="/tags/设计模式/" style="font-size: 20.00px;">设计模式</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">October 2014</a><span class="archive-list-count">5</span></li></ul>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recents</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2014/10/20/观察者模式(Observer)/">观察者模式（Observer）</a>
+          </li>
+        
+          <li>
+            <a href="/2014/10/20/发布订阅模式(Pubsub)/">发布订阅模式（Pub/Sub）</a>
+          </li>
+        
+          <li>
+            <a href="/2014/10/20/Sass学习笔记/">Sass学习笔记-基础篇</a>
+          </li>
+        
+          <li>
+            <a href="/2014/10/20/单例模式(singletion)/">单例模式（Singleton）</a>
+          </li>
+        
+          <li>
+            <a href="/2014/10/20/svn-cleanup-field 错误解决办法/">flex中  svn 执行 cleanup 出现cleanup field 错误 解决办法</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2014 misar<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+
+  <script src="/fancybox/jquery.fancybox.pack.js" type="text/javascript"></script>
+
+
+
+<script src="/js/script.js" type="text/javascript"></script>
+
+
+  </div>
+</body>
+</html>
