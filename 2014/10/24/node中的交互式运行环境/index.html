@@ -3,17 +3,41 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Tag: flex | Dabbler</title>
+  <title>Dabbler</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description">
-<meta property="og:type" content="website">
+  <meta name="description" content="title: node中的REPL交互式运行环境 date: 2014-10-24 23:02:59 tags:
+
+nodecategories:
+node
+
+
+node中为了方便开发者测试js代码，提供了一个名为REPL的可交互运行环境。在该运行环境中输入任何js表达式。当用户按下回车键后，REPL运行环境将显示该表达式的运行结果。
+在命令行窗口中，输入”node”按下回车，即可进入REPL运">
+<meta property="og:type" content="article">
 <meta property="og:title" content="Dabbler">
-<meta property="og:url" content="http://yoursite.com/tags/flex/">
+<meta property="og:url" content="http://yoursite.com/2014/10/24/node中的交互式运行环境/">
 <meta property="og:site_name" content="Dabbler">
-<meta property="og:description">
+<meta property="og:description" content="title: node中的REPL交互式运行环境 date: 2014-10-24 23:02:59 tags:
+
+nodecategories:
+node
+
+
+node中为了方便开发者测试js代码，提供了一个名为REPL的可交互运行环境。在该运行环境中输入任何js表达式。当用户按下回车键后，REPL运行环境将显示该表达式的运行结果。
+在命令行窗口中，输入”node”按下回车，即可进入REPL运">
+<meta property="og:image" content="http://misar.qiniudn.com/%40%2F10242014%2F2.gif">
+<meta property="og:image" content="http://misar.qiniudn.com/%40%2F10242014%2F3.gif">
+<meta property="og:image" content="http://misar.qiniudn.com/%40%2F10242014%2F4.gif">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Dabbler">
-<meta name="twitter:description">
+<meta name="twitter:description" content="title: node中的REPL交互式运行环境 date: 2014-10-24 23:02:59 tags:
+
+nodecategories:
+node
+
+
+node中为了方便开发者测试js代码，提供了一个名为REPL的可交互运行环境。在该运行环境中输入任何js表达式。当用户按下回车键后，REPL运行环境将显示该表达式的运行结果。
+在命令行窗口中，输入”node”按下回车，即可进入REPL运">
 
   
     <link rel="alternative" href="/atom.xml" title="Dabbler" type="application/atom+xml">
@@ -65,67 +89,82 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main">
-  
-    <article id="svn-svn-cleanup-field 错误解决办法" class="article article-type-svn" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-node中的交互式运行环境" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2014/10/20/svn-cleanup-field 错误解决办法/" class="article-date">
-  <time datetime="2014-10-20T08:50:59.000Z" itemprop="datePublished">Oct 20 2014</time>
+    <a href="/2014/10/24/node中的交互式运行环境/" class="article-date">
+  <time datetime="2014-10-24T14:54:23.000Z" itemprop="datePublished">Oct 24 2014</time>
 </a>
     
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/flex/">flex</a>
-  </div>
-
   </div>
   <div class="article-inner">
     
     
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2014/10/20/svn-cleanup-field 错误解决办法/">flex中  svn 执行 cleanup 出现cleanup field 错误 解决办法</a>
-    </h1>
-  
-
-      </header>
-    
     <div class="article-entry" itemprop="articleBody">
       
-        <p>在团队项目中，通常是几个成员维护一个项目，经常需要相互的checkout, 老是会遇到svn卡死的情况，然后就会执行<code>cleanup</code>,就会出现下面的错误</p>
-<p><img src="http://misar.qiniudn.com/%40%2F10202014%2F20141021145659.jpg" alt=""><br><img src="http://misar.qiniudn.com/%40%2F10202014%2F20141021145738.jpg" alt=""></p>
-<h4 id="解决办法">解决办法</h4>
-<p>1.下载sqlite.exe  </p>
-<p>2.找到你项目的.svn文件，查看是否存在wc.db</p>
-<p>3.将sqlite3.exe放到.svn的同级目录</p>
-<p>4.在该目录中启动cmd(shift+鼠标右键)</p>
-<p><strong>执行</strong></p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sqlite .svn/wc.db <span class="string">"select * from work_queue"</span></div></pre></td></tr></table></figure>
+        <p> title: node中的REPL交互式运行环境<br> date: 2014-10-24 23:02:59<br> tags:</p>
+<ul>
+<li>node<br>categories:</li>
+<li>node</li>
+</ul>
+<hr>
+<p>node中为了方便开发者测试js代码，提供了一个名为REPL的可交互运行环境。在该运行环境中输入任何js表达式。当用户按下回车键后，REPL运行环境将显示该表达式的运行结果。</p>
+<p>在命令行窗口中，输入”node”按下回车，即可进入REPL运行环境。</p>
+<h3 id="变量操作">变量操作</h3>
+<p>在REPL环境中我们可以输入任何js表达式，执行并输出结果.只是变量声明不需要<code>var</code>.在REPL环境内部使用了eval函数来执行表达式的结果。</p>
+<p>在REPL环境中，输入变量名直接打印结果，输入对象名，直接显示该对象的属性名及值。如果属性值是一个函数，那么将显示 <code>[function]</code>;</p>
+<p><img src="http://misar.qiniudn.com/%40%2F10242014%2F2.gif" alt=""></p>
+<h3 id="下划线使用">下划线使用</h3>
+<p>在REPL中可以通过下划线(“_”)来访问最近使用的表达式。</p>
+<p><img src="http://misar.qiniudn.com/%40%2F10242014%2F3.gif" alt=""></p>
+<h3 id="运行函数">运行函数</h3>
+<p>  当一个表达式未书写完成是，REPL环境将为该表达式的每一行添加英文省略符。知道表达式书写完成。</p>
+<p><img src="http://misar.qiniudn.com/%40%2F10242014%2F4.gif" alt=""></p>
+<h3 id="上下文">上下文</h3>
+<p>在node模块中可以使用start方法来开启REPL的运行环境。该方法包含一个参数，用来指定开启运行环境的选项。具体的选项暂不讨论。start方法返回了REPL的运行环境。可以为这个环境指定一个上下文对象。然后将变量保存到该对象上，那么该变量就是该上下文中的全局变量。</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//引入REPL运行环境</span></div><div class="line"><span class="keyword">var</span> repl = <span class="built_in">require</span>(<span class="string">"repl"</span>);</div><div class="line"><span class="keyword">var</span> con = repl.start().context;</div><div class="line">con.msg=<span class="string">"测试消息"</span>;</div><div class="line">con.testFn=<span class="function"><span class="keyword">function</span><span class="params">()</span></span>{</div><div class="line">    <span class="built_in">console</span>.log(con.msg);</div><div class="line">};</div></pre></td></tr></table></figure>
 
-<p>如果有错误的话，就会有一条记录。删除即可<br><img src="http://misar.qiniudn.com/%40%2F10202014%2F20141021145913.jpg" alt=""></p>
-<p><strong>删除</strong></p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sqlite .svn/wc.db <span class="string">"delete from work_queue"</span></div></pre></td></tr></table></figure>
-
-<p><img src="http://misar.qiniudn.com/%40%2F10202014%2F20141021150010.jpg" alt=""></p>
-<p>5.如果想确认是否删除干净，继续执行<code>select</code>查询命令<br><img src="http://misar.qiniudn.com/%40%2F10202014%2F20141021150038.jpg" alt=""></p>
+<h3 id="基础命令">基础命令</h3>
+<p>在node中提供了一些基础的命令便于我们更好的使用REPL环境.这些命令都是以<code>.</code>点开始的。</p>
+<ul>
+<li>.break: </li>
+</ul>
+<p>跳出当前正在输入的表达式并回到一开始状态。（也可使用ctrl +c）</p>
+<ul>
+<li><p>.clear: 清除上下文中所有变量和函数</p>
+</li>
+<li><p>.exit: 退出REPL环境。</p>
+</li>
+<li><p>.help: 显示REPL环境中的所有基础命令</p>
+</li>
+<li><p>save: 把当前环境中输入的所有表达式保存到一个文件中。</p>
+</li>
+<li><p>.load:把已保存的文件，加载到环境中。</p>
+</li>
+</ul>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2014/10/20/svn-cleanup-field 错误解决办法/" data-id="6dzm5zqllvtv21yf" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2014/10/24/node中的交互式运行环境/" data-id="jny0ytwgcatld61x" class="article-share-link">Share</a>
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/flex/">flex</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/svn/">svn</a></li></ul>
-
     </footer>
   </div>
   
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2014/10/23/cpu密集/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
 </article>
 
-
-  
-  
 </section>
         
           <aside id="sidebar">

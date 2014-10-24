@@ -3,17 +3,27 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Tag: flex | Dabbler</title>
+  <title>Dabbler</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description">
-<meta property="og:type" content="website">
+  <meta name="description" content="一张图说明CPU密集与I/O密集的区别
+
+某个进程花费了一定的时间用在计算上的称之为计算密集型(cpu密集型)。而其他的在等待I/O上花费了大多是时间的称之为I/O密集型。
+我的理解就是频繁的操作输入输出称之为I/O密集，此时，系统大部分的状况是CPU在等待I/O的读写，而CPU本身的loading不高。而CPU密集相反了。大部分时间是在运算。loading 基本在 100%吧。而I/O在很短的时">
+<meta property="og:type" content="article">
 <meta property="og:title" content="Dabbler">
-<meta property="og:url" content="http://yoursite.com/tags/flex/">
+<meta property="og:url" content="http://yoursite.com/2014/10/23/cpu密集/">
 <meta property="og:site_name" content="Dabbler">
-<meta property="og:description">
+<meta property="og:description" content="一张图说明CPU密集与I/O密集的区别
+
+某个进程花费了一定的时间用在计算上的称之为计算密集型(cpu密集型)。而其他的在等待I/O上花费了大多是时间的称之为I/O密集型。
+我的理解就是频繁的操作输入输出称之为I/O密集，此时，系统大部分的状况是CPU在等待I/O的读写，而CPU本身的loading不高。而CPU密集相反了。大部分时间是在运算。loading 基本在 100%吧。而I/O在很短的时">
+<meta property="og:image" content="http://misar.qiniudn.com/%40%2F10232014%2F0dd7912397dda1442443b8ceb0b7d0a20cf48600.jpg">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Dabbler">
-<meta name="twitter:description">
+<meta name="twitter:description" content="一张图说明CPU密集与I/O密集的区别
+
+某个进程花费了一定的时间用在计算上的称之为计算密集型(cpu密集型)。而其他的在等待I/O上花费了大多是时间的称之为I/O密集型。
+我的理解就是频繁的操作输入输出称之为I/O密集，此时，系统大部分的状况是CPU在等待I/O的读写，而CPU本身的loading不高。而CPU密集相反了。大部分时间是在运算。loading 基本在 100%吧。而I/O在很短的时">
 
   
     <link rel="alternative" href="/atom.xml" title="Dabbler" type="application/atom+xml">
@@ -65,67 +75,55 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main">
-  
-    <article id="svn-svn-cleanup-field 错误解决办法" class="article article-type-svn" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-cpu密集" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2014/10/20/svn-cleanup-field 错误解决办法/" class="article-date">
-  <time datetime="2014-10-20T08:50:59.000Z" itemprop="datePublished">Oct 20 2014</time>
+    <a href="/2014/10/23/cpu密集/" class="article-date">
+  <time datetime="2014-10-23T09:40:14.000Z" itemprop="datePublished">Oct 23 2014</time>
 </a>
     
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/flex/">flex</a>
-  </div>
-
   </div>
   <div class="article-inner">
     
     
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2014/10/20/svn-cleanup-field 错误解决办法/">flex中  svn 执行 cleanup 出现cleanup field 错误 解决办法</a>
-    </h1>
-  
-
-      </header>
-    
     <div class="article-entry" itemprop="articleBody">
       
-        <p>在团队项目中，通常是几个成员维护一个项目，经常需要相互的checkout, 老是会遇到svn卡死的情况，然后就会执行<code>cleanup</code>,就会出现下面的错误</p>
-<p><img src="http://misar.qiniudn.com/%40%2F10202014%2F20141021145659.jpg" alt=""><br><img src="http://misar.qiniudn.com/%40%2F10202014%2F20141021145738.jpg" alt=""></p>
-<h4 id="解决办法">解决办法</h4>
-<p>1.下载sqlite.exe  </p>
-<p>2.找到你项目的.svn文件，查看是否存在wc.db</p>
-<p>3.将sqlite3.exe放到.svn的同级目录</p>
-<p>4.在该目录中启动cmd(shift+鼠标右键)</p>
-<p><strong>执行</strong></p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sqlite .svn/wc.db <span class="string">"select * from work_queue"</span></div></pre></td></tr></table></figure>
-
-<p>如果有错误的话，就会有一条记录。删除即可<br><img src="http://misar.qiniudn.com/%40%2F10202014%2F20141021145913.jpg" alt=""></p>
-<p><strong>删除</strong></p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sqlite .svn/wc.db <span class="string">"delete from work_queue"</span></div></pre></td></tr></table></figure>
-
-<p><img src="http://misar.qiniudn.com/%40%2F10202014%2F20141021150010.jpg" alt=""></p>
-<p>5.如果想确认是否删除干净，继续执行<code>select</code>查询命令<br><img src="http://misar.qiniudn.com/%40%2F10202014%2F20141021150038.jpg" alt=""></p>
+        <p>一张图说明CPU密集与I/O密集的区别</p>
+<p><img src="http://misar.qiniudn.com/%40%2F10232014%2F0dd7912397dda1442443b8ceb0b7d0a20cf48600.jpg" alt=""></p>
+<p>某个进程花费了一定的时间用在计算上的称之为计算密集型(cpu密集型)。而其他的在等待I/O上花费了大多是时间的称之为I/O密集型。</p>
+<p>我的理解就是频繁的操作输入输出称之为I/O密集，此时，系统大部分的状况是CPU在等待I/O的读写，而CPU本身的loading不高。而CPU密集相反了。大部分时间是在运算。loading 基本在 100%吧。而I/O在很短的时间就可以完成。</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2014/10/20/svn-cleanup-field 错误解决办法/" data-id="6dzm5zqllvtv21yf" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2014/10/23/cpu密集/" data-id="h6opn3hsr67bjvho" class="article-share-link">Share</a>
       
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/flex/">flex</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/svn/">svn</a></li></ul>
-
     </footer>
   </div>
   
+    
+<nav id="article-nav">
+  
+    <a href="/2014/10/24/node中的交互式运行环境/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2014/10/23/Sass学习笔记/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Sass学习笔记-基础篇</div>
+    </a>
+  
+</nav>
+
+  
 </article>
 
-
-  
-  
 </section>
         
           <aside id="sidebar">
