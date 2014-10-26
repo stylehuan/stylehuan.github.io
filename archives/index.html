@@ -67,6 +67,139 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-buffer对象" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2014/10/26/buffer对象/" class="article-date">
+  <time datetime="2014-10-26T15:20:59.000Z" itemprop="datePublished">Oct 26 2014</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/node/">node</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/10/26/buffer对象/">Buffer对象（Singleton）</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="创建_Buffer对象的三种方式">创建 Buffer对象的三种方式</h3>
+<h4 id="方式一">方式一</h4>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">new</span> Buffer(<span class="built_in">len</span>);</div></pre></td></tr></table></figure>
+
+<p><strong>参数</strong></p>
+<p>参数len为缓存区的长度</p>
+<p>然后使用Buffer对象的fill方法，填充数据。该方法可以使用三个参数。</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">buffer</span> = <span class="keyword">new</span> <span class="keyword">Buffer</span>(<span class="number">120</span>);</div><div class="line"><span class="keyword">buffer</span>.fill(value, [offset],[<span class="keyword">end</span>])</div></pre></td></tr></table></figure>
+
+<p><strong>参数</strong></p>
+<ul>
+<li>value 是必须指定的参数，参数值为需要被写入的值。</li>
+<li><p>offset 可选参数，用于指定从第一个字节开始写入被指定的值。默认是0.即从缓存区的起始位置写入</p>
+</li>
+<li><p>end 用于指定将值一直写到第几个字节处。默认是结尾。</p>
+</li>
+</ul>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">buffer</span>.fill(<span class="number">1</span>, <span class="number">2</span>,<span class="number">10</span>);</div></pre></td></tr></table></figure>
+
+<h3 id="方式二">方式二</h3>
+<p>直接使用数组来初始化缓存区</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">new</span> <span class="keyword">Buffer</span>(<span class="keyword">array</span>);</div></pre></td></tr></table></figure>
+
+<h3 id="方式三">方式三</h3>
+<p>构造函数中直接使用一个字符串来初始化缓存区</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">new</span> Buffer(<span class="keyword">str</span>, [encoding]);</div></pre></td></tr></table></figure>
+
+<p><strong>参数</strong></p>
+<ul>
+<li><p>str 必须指定的参数。用于初始化缓存区的字符串。</p>
+</li>
+<li><p>encoding 可选参数，用于指定文字的编码格式。模式是“utf8”;</p>
+</li>
+</ul>
+<h3 id="字符串与缓存区">字符串与缓存区</h3>
+<p>字符串的长度与缓存区的长度完全不懂，一个取得是字符的个数，另一个取的是字节数。</p>
+<p>buffer并不具备字符串的操作方法。只有一个slice方法。与string的slice相同。通过slice修改的取出的数据，也将会导致原缓存区的数据被修改。因为slice方法并不是copy缓存区的数据，而是共享内存区域。</p>
+<h3 id="Buffer对象与字符串对象之间的相互转换">Buffer对象与字符串对象之间的相互转换</h3>
+<ul>
+<li>toString方法</li>
+</ul>
+<p>通过toString方法将Buffer对象中保存的数据转换为字符串。</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">buf</span><span class="class">.toString</span>(<span class="attr_selector">[encoding]</span>,<span class="attr_selector">[start]</span>,<span class="attr_selector">[end]</span>);</div></pre></td></tr></table></figure>
+
+<p>第一个指定编码<br>第二、三个指定起止位置。</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">buf=<span class="keyword">new</span> <span class="type">Buffer</span>(<span class="string">"我爱Buffer"</span>);</div><div class="line">buf.<span class="built_in">toString</span>();</div></pre></td></tr></table></figure>
+
+<ul>
+<li>write方法。</li>
+</ul>
+<p>向已创建的Buffer对象中写入字符串。也可以替换字符串</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">buf.<span class="command">write</span>(<span class="type">string</span>,[<span class="command">offset</span>],[<span class="property">length</span>],[encoding]);</div></pre></td></tr></table></figure>
+
+<ul>
+<li>string: 必须参数，指定写入的字符串。</li>
+<li><p>offset与lengtn用于指定字符串转换为字节数据后写入的位置。字节数据的写入位置为从第1+offset个字节开始到offset+length个字节为止。（例如。offset为3，length为6，写入的位置为从第4个字节开始到第9个字节位置，包括第四和第9字节。</p>
+</li>
+<li><p>encoding 指定字符串的编码格式。</p>
+</li>
+</ul>
+<h3 id="Buffer对象与JSON对象之间的相互转换">Buffer对象与JSON对象之间的相互转换</h3>
+<p>在node中可以使用JSON.stringify方法将Buffer对象中保存的数据转换为一个字符串。也可以使用JSON.parse方法将一个经过转换后的字符串还原为一个数组。</p>
+<h3 id="复制缓存数据">复制缓存数据</h3>
+<p>如果需要复制一个Buffer对象的数据到另一个Buffer对象中，可以 使用Buffer对象的copy方法</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">buf</span><span class="class">.copy</span>(<span class="tag">targetBuffer</span>,<span class="attr_selector">[targetStart]</span>,<span class="attr_selector">[sourceStart]</span>,<span class="attr_selector">[sourceEnd]</span>);</div></pre></td></tr></table></figure>
+
+<ul>
+<li><p>targetBuffer 指定复制的目标Buffer对象</p>
+</li>
+<li><p>targetStart:指定从目标Buffer对象中第几个字节开始。</p>
+</li>
+<li><p>targetStart:从复制源的起始位置，默认是0.</p>
+</li>
+<li><p>targetEnd:直接复制源的结束位置</p>
+</li>
+</ul>
+<h3 id="Buffer类的方法">Buffer类的方法</h3>
+<p>在js中可以理解为静态方法。</p>
+<ul>
+<li>isBuffer: 判断一个对象是否为一个BUffer对象</li>
+</ul>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">Buffer</span>.isBuffer(obj);</div></pre></td></tr></table></figure>
+
+<ul>
+<li>byteLength: 计算指定字符串的字节数。</li>
+</ul>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Buffer.byteLength(<span class="keyword">str</span>, [encoding]);</div></pre></td></tr></table></figure>
+
+<ul>
+<li>isEncoding: 检测一个字符串是否为一个有效的编码格式的字符串。</li>
+</ul>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">Buffer</span>.isEnding(encoding);</div></pre></td></tr></table></figure>
+
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2014/10/26/buffer对象/" data-id="6tfhl2f4tenuy7ul" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-node中的交互式运行环境" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2014/10/24/node中的交互式运行环境/" class="article-date">
@@ -123,7 +256,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2014/10/24/node中的交互式运行环境/" data-id="9v6jyoao5okhh2bw" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2014/10/24/node中的交互式运行环境/" data-id="u58d8iqwme0l3l9c" class="article-share-link">Share</a>
       
       
     </footer>
@@ -153,7 +286,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2014/10/23/cpu密集/" data-id="j5das6m3jdk3tb8g" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2014/10/23/cpu密集/" data-id="0j8jm6cjicesbeo6" class="article-share-link">Share</a>
       
       
     </footer>
@@ -269,7 +402,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2014/10/23/Sass学习笔记/" data-id="hgf866joo7szdy6j" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2014/10/23/Sass学习笔记/" data-id="15udkltkriiy2itl" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/css/">css</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/sass/">sass</a></li></ul>
@@ -358,7 +491,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2014/10/20/观察者模式(Observer)/" data-id="hmjowblrfwnqzfqn" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2014/10/20/观察者模式(Observer)/" data-id="lyvlmd7y2pkncloo" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/设计模式/">设计模式</a></li></ul>
@@ -421,7 +554,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2014/10/20/发布订阅模式(Pubsub)/" data-id="y271yxurzggca3j8" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2014/10/20/发布订阅模式(Pubsub)/" data-id="s1btuua2myaxnui1" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/设计模式/">设计模式</a></li></ul>
@@ -499,7 +632,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2014/10/20/单例模式(singletion)/" data-id="ko8asmz0fcecnizo" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2014/10/20/单例模式(singletion)/" data-id="185k1u3gk5g1xn38" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/设计模式/">设计模式</a></li></ul>
@@ -557,7 +690,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2014/10/20/svn-cleanup-field 错误解决办法/" data-id="251o726p8o4mlk5z" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2014/10/20/svn-cleanup-field 错误解决办法/" data-id="ynmjk2x12wcta3ql" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/flex/">flex</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/svn/">svn</a></li></ul>
@@ -578,7 +711,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Categories</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Tool/">Tool</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/flex/">flex</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/设计模式/">设计模式</a><span class="category-list-count">3</span></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Tool/">Tool</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/flex/">flex</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/node/">node</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/设计模式/">设计模式</a><span class="category-list-count">3</span></li></ul>
     </div>
   </div>
 
@@ -605,7 +738,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">October 2014</a><span class="archive-list-count">7</span></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/10/">October 2014</a><span class="archive-list-count">8</span></li></ul>
     </div>
   </div>
 
@@ -615,6 +748,10 @@
     <h3 class="widget-title">Recents</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2014/10/26/buffer对象/">Buffer对象（Singleton）</a>
+          </li>
         
           <li>
             <a href="/2014/10/24/node中的交互式运行环境/">(no title)</a>
@@ -630,10 +767,6 @@
         
           <li>
             <a href="/2014/10/20/观察者模式(Observer)/">观察者模式（Observer）</a>
-          </li>
-        
-          <li>
-            <a href="/2014/10/20/发布订阅模式(Pubsub)/">发布订阅模式（Pub/Sub）</a>
           </li>
         
       </ul>
